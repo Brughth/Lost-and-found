@@ -116,25 +116,28 @@ class ObjetWidget extends StatelessWidget {
           SizedBox(
             height: screenHeigth * .005,
           ),
-          ReadMoreText(
-            description,
-            trimLines: 2,
-            style: const TextStyle(
-              color: AppColors.primaryText,
-              fontSize: 16,
-            ),
-            trimMode: TrimMode.Line,
-            trimCollapsedText: 'Show more',
-            trimExpandedText: 'Show less',
-            moreStyle: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: AppColors.primary,
-            ),
-            lessStyle: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: AppColors.secondary,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 7.0),
+            child: ReadMoreText(
+              description,
+              trimLines: 2,
+              style: const TextStyle(
+                color: AppColors.primaryText,
+                fontSize: 16,
+              ),
+              trimMode: TrimMode.Line,
+              trimCollapsedText: 'Show more',
+              trimExpandedText: 'Show less',
+              moreStyle: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary,
+              ),
+              lessStyle: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: AppColors.secondary,
+              ),
             ),
           ),
           SizedBox(
