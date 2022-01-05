@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lost_and_found/src/authentification/auth_service.dart';
 import 'package:lost_and_found/src/pages/found_objet_page.dart';
 import 'package:lost_and_found/src/pages/lost_objet_page.dart';
@@ -27,20 +28,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.primary,
         elevation: 0,
         leading: IconButton(
           splashColor: AppColors.primary,
           onPressed: () {},
-          icon: const Icon(
+          icon: Icon(
             Icons.message,
-            color: AppColors.primaryText,
+            color: AppColors.hexToColor("ffffff"),
           ),
         ),
         title: const Text(
           "Lost And Found",
           style: TextStyle(
             color: AppColors.primaryGrayText,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         centerTitle: true,
@@ -48,9 +51,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           IconButton(
             splashColor: const Color(0xFFffb421),
             onPressed: () {},
-            icon: const Icon(
+            icon: Icon(
               Icons.search,
-              color: AppColors.primaryText,
+              color: AppColors.hexToColor("ffffff"),
             ),
           ),
           IconButton(
@@ -63,35 +66,41 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
               );
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.person,
-              color: AppColors.primaryText,
+              color: AppColors.hexToColor("ffffff"),
             ),
           )
         ],
-        bottom: TabBar(
-          indicatorColor: AppColors.primary,
-          unselectedLabelColor: AppColors.grayScale,
-          labelColor: AppColors.primary,
-          labelStyle: const TextStyle(
-            fontWeight: FontWeight.w700,
-          ),
-          controller: _tabController,
-          tabs: const [
-            Tab(
-              text: "LOST OBJET",
-            ),
-            Tab(
-              text: "FOUNT OBJET",
-            ),
-          ],
-        ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          LostObjePage(),
-          FoundObjetPage(),
+      body: Column(
+        children: [
+          TabBar(
+            indicatorColor: AppColors.primary,
+            unselectedLabelColor: AppColors.grayScale,
+            labelColor: AppColors.primary,
+            labelStyle: const TextStyle(
+              fontWeight: FontWeight.w700,
+            ),
+            controller: _tabController,
+            tabs: const [
+              Tab(
+                text: "LOST OBJET",
+              ),
+              Tab(
+                text: "FOUNT OBJET",
+              ),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: const [
+                LostObjePage(),
+                FoundObjetPage(),
+              ],
+            ),
+          ),
         ],
       ),
     );

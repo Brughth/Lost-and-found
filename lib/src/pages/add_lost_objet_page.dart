@@ -59,6 +59,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
     double screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.primary,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_sharp),
           onPressed: () {
@@ -223,7 +224,10 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
                 const Center(
                   child: CircularProgressIndicator(),
                 ),
-              if (error != null) Text(error!),
+              if (error != null)
+                Center(
+                  child: Text(error!),
+                ),
               AppButton(
                 text: "Send",
                 onTap: () async {

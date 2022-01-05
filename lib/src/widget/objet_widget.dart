@@ -100,7 +100,7 @@ class ObjetWidget extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: Text(
-                                  DateFormat.yMd()
+                                  DateFormat.yMMMd()
                                       .format(DateTime.parse(createAd)),
                                   style: const TextStyle(
                                     color: AppColors.primaryText,
@@ -166,6 +166,7 @@ class ObjetWidget extends StatelessWidget {
               children: [
                 const Icon(
                   Icons.share,
+                  color: AppColors.primary,
                 ),
                 TextButton(
                   onPressed: () {},
