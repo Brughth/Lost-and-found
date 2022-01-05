@@ -67,6 +67,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
         ),
       ),
       body: Form(
+        autovalidateMode: AutovalidateMode.disabled,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
           child: ListView(

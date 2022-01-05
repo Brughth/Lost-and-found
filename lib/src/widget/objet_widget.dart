@@ -25,10 +25,11 @@ class ObjetWidget extends StatelessWidget {
     double screenHeigth = MediaQuery.of(context).size.height;
 
     return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      color: Colors.white60,
+      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -59,24 +60,23 @@ class ObjetWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         RichText(
-                          text: const TextSpan(
-                            //text: user['subname'] ?? "",
-                            text: "brughth",
+                          text: TextSpan(
+                            text: "$username ",
                             style: const TextStyle(
                               color: AppColors.primaryText,
                               fontWeight: FontWeight.w700,
                               fontSize: 17,
                             ),
                             children: [
-                              TextSpan(
-                                //text: " ${user['name']}",
-                                text: " olice",
-                                style: const TextStyle(
-                                  color: AppColors.primaryText,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 17,
+                              if (usersubname != null)
+                                TextSpan(
+                                  text: usersubname,
+                                  style: const TextStyle(
+                                    color: AppColors.primaryText,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 17,
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ),
