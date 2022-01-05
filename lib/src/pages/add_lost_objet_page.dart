@@ -227,42 +227,55 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
               AppButton(
                 text: "Send",
                 onTap: () async {
-                  try {
+                  setState(() {
+                    isLoading = true;
+                    error = null;
+                  });
+
+                  var data = await getData();
+
+                  print("olicedata $data");
+
+                  if (data['title'] == null ||
+                      data['description'] == null ||
+                      data['category_id'] == null ||
+                      image == null) {
                     setState(() {
-                      isLoading = true;
-                      error = null;
+                      error = "please fill in all the fields";
+                      isLoading = false;
                     });
-
-                    var data = await getData();
-
-                    print("olicedata $data");
-                    var objetRef = await _objetservice.saveObjet(data);
-
+                  } else {
                     try {
-                      if (image != null) {
-                        imageUrl = await _objetservice.uploadFileToFireStorage(
-                            File(image!.path), image!.name);
+                      var objetRef = await _objetservice.saveObjet(data);
+
+                      try {
+                        if (image != null) {
+                          imageUrl =
+                              await _objetservice.uploadFileToFireStorage(
+                                  File(image!.path), image!.name);
+                        }
+                      } catch (e) {
+                        print(e);
                       }
+
+                      if (imageUrl != null) {
+                        await objetRef.update({"image": imageUrl});
+                      }
+
+                      setState(() {
+                        isLoading = false;
+                        _titleController.clear();
+                        _descController.clear();
+                        image = null;
+                      });
+                      Navigator.of(context).pop();
                     } catch (e) {
                       print(e);
+                      setState(() {
+                        error = e.toString();
+                        isLoading = false;
+                      });
                     }
-
-                    if (imageUrl != null) {
-                      await objetRef.update({"image": imageUrl});
-                    }
-
-                    setState(() {
-                      isLoading = false;
-                      _titleController.clear();
-                      _descController.clear();
-                      image = null;
-                    });
-                  } catch (e) {
-                    print(e);
-                    setState(() {
-                      error = e.toString();
-                      isLoading = false;
-                    });
                   }
                 },
               )

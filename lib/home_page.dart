@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_and_found/src/authentification/auth_service.dart';
 import 'package:lost_and_found/src/pages/found_objet_page.dart';
@@ -35,7 +34,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           onPressed: () {},
           icon: const Icon(
             Icons.message,
-            color: AppColors.grayScale,
+            color: AppColors.primaryText,
           ),
         ),
         title: const Text(
@@ -51,7 +50,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             onPressed: () {},
             icon: const Icon(
               Icons.search,
-              color: AppColors.grayScale,
+              color: AppColors.primaryText,
             ),
           ),
           IconButton(
@@ -66,7 +65,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             },
             icon: const Icon(
               Icons.person,
-              color: AppColors.grayScale,
+              color: AppColors.primaryText,
             ),
           )
         ],

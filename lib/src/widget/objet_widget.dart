@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
 import 'package:readmore/readmore.dart';
+import 'package:intl/intl.dart';
 
 class ObjetWidget extends StatelessWidget {
   final String title;
@@ -9,6 +10,7 @@ class ObjetWidget extends StatelessWidget {
   final String? userImage;
   final String username;
   final String? usersubname;
+  final String createAd;
 
   const ObjetWidget({
     Key? key,
@@ -18,6 +20,7 @@ class ObjetWidget extends StatelessWidget {
     required this.userImage,
     required this.usersubname,
     required this.username,
+    required this.createAd,
   }) : super(key: key);
 
   @override
@@ -85,21 +88,23 @@ class ObjetWidget extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                "2020-12-08",
-                                style: TextStyle(
+                              Text(
+                                title,
+                                style: const TextStyle(
                                   color: AppColors.primaryText,
-                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: Text(
-                                  title,
+                                  DateFormat.yMd()
+                                      .format(DateTime.parse(createAd)),
                                   style: const TextStyle(
                                     color: AppColors.primaryText,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
+                                    fontSize: 15,
                                   ),
                                 ),
                               ),
@@ -113,8 +118,8 @@ class ObjetWidget extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            height: screenHeigth * .005,
+          Divider(
+            color: AppColors.primary.withOpacity(.6),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 7.0),
@@ -129,13 +134,13 @@ class ObjetWidget extends StatelessWidget {
               trimCollapsedText: 'Show more',
               trimExpandedText: 'Show less',
               moreStyle: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
                 color: AppColors.primary,
               ),
               lessStyle: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
                 color: AppColors.secondary,
               ),
             ),
@@ -154,6 +159,21 @@ class ObjetWidget extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Icon(
+                  Icons.share,
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text("put it back"),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );

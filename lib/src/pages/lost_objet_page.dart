@@ -18,8 +18,10 @@ class _LostObjePageState extends State<LostObjePage>
 
   @override
   void initState() {
-    objetStream =
-        FirebaseFirestore.instance.collection("lost_objet").snapshots();
+    objetStream = FirebaseFirestore.instance
+        .collection("lost_objet")
+        .orderBy("createdAt", descending: true)
+        .snapshots();
 
     super.initState();
   }
@@ -61,9 +63,6 @@ class _LostObjePageState extends State<LostObjePage>
               return ListView.separated(
                 itemCount: snapshot.data!.size,
                 separatorBuilder: (context, index) {
-                  // return const Divider(
-                  //   color: AppColors.primary,
-                  // );
                   return Container(
                     height: screenHeigth * 0.01,
                     decoration: const BoxDecoration(color: AppColors.grayScale),
@@ -100,6 +99,7 @@ class _LostObjePageState extends State<LostObjePage>
                           title: "${objet['title']}",
                           description: "${objet['description']}",
                           image: "${objet['image']}",
+                          createAd: "${objet['createdAt']}",
                           userImage: "${user['photo_url']}",
                           usersubname: "${user['subname']}",
                           username: "${user['name']}",
