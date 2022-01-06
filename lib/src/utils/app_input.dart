@@ -10,6 +10,7 @@ class AppInput extends StatelessWidget {
   final TextInputType? textInputType;
   final int? minLines;
   final int? maxLines;
+  final bool readOnly;
   const AppInput({
     Key? key,
     required this.controller,
@@ -20,6 +21,7 @@ class AppInput extends StatelessWidget {
     this.textInputType,
     this.minLines,
     this.maxLines,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -46,6 +48,7 @@ class AppInput extends StatelessWidget {
               fontWeight: FontWeight.w400,
               color: AppColors.primaryText,
             ),
+            readOnly: readOnly,
             minLines: minLines,
             maxLines: maxLines,
             decoration: InputDecoration(

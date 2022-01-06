@@ -38,7 +38,6 @@ class _UserProfilePageState extends State<UserProfilePage>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0.5,
         backgroundColor: AppColors.primary,
         leading: IconButton(
           icon: const Icon(
@@ -246,6 +245,7 @@ class _UserProfilePageState extends State<UserProfilePage>
         },
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "btn 3",
         backgroundColor: AppColors.primary,
         child: const Icon(Icons.edit),
         onPressed: () {

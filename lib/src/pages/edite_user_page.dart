@@ -5,8 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lost_and_found/src/services/user_services.dart';
-import 'package:lost_and_found/src/widget/app_button.dart';
-import 'package:lost_and_found/src/widget/app_imput.dart';
+import 'package:lost_and_found/src/utils/app_button.dart';
+import 'package:lost_and_found/src/utils/app_colors.dart';
+import 'package:lost_and_found/src/utils/app_input.dart';
 
 class EditeUserPage extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -79,35 +80,45 @@ class _EditeUserPageState extends State<EditeUserPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHiegrh = MediaQuery.of(context).size.height;
+    double screenWidgth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.5,
-        backgroundColor: const Color(0xFF212121),
+        backgroundColor: AppColors.primary,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF909093)),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        title: const Text(
+          "Edit Profile",
+          style: TextStyle(
+            color: AppColors.primaryGrayText,
+            fontWeight: FontWeight.bold,
+            fontSize: 23,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: ListView(
         children: [
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              color: Color(0xFF212121),
-            ),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: screenHiegrh * .025,
                 ),
                 Stack(
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width,
+                      width: screenWidgth,
                       child: CircleAvatar(
                         radius: 100,
-                        backgroundColor: const Color(0xFFff7521),
+                        backgroundColor: AppColors.primary,
                         child: currentImage != null
                             ? CircleAvatar(
                                 radius: 98,
@@ -123,10 +134,10 @@ class _EditeUserPageState extends State<EditeUserPage> {
                       ),
                     ),
                     Positioned(
-                      top: 130,
-                      left: 270,
+                      bottom: screenHiegrh * .045,
+                      right: screenWidgth * .225,
                       child: CircleAvatar(
-                        backgroundColor: const Color(0xFFffffff),
+                        backgroundColor: AppColors.primary,
                         child: GestureDetector(
                           onTap: () async {
                             final ImagePicker _picker = ImagePicker();
@@ -140,44 +151,42 @@ class _EditeUserPageState extends State<EditeUserPage> {
                           },
                           child: const Icon(
                             Icons.camera_alt,
-                            color: Color(0xFFff7521),
+                            color: Colors.white,
                           ),
                         ),
                       ),
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
                 SizedBox(
-                  width: 330,
+                  width: screenWidgth * .9,
                   child: Column(
                     children: [
-                      AppImput(
+                      AppInput(
                         controller: _emailController,
-                        hintText: "Email",
+                        label: "Email",
+                        readOnly: true,
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: screenHiegrh * .002,
                       ),
-                      AppImput(
+                      AppInput(
                         controller: _nameController,
-                        hintText: "Nom",
+                        label: "Name",
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: screenHiegrh * .002,
                       ),
-                      AppImput(
+                      AppInput(
                         controller: _subnameController,
-                        hintText: "Prenom",
+                        label: "Subname",
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: screenHiegrh * .002,
                       ),
-                      AppImput(
+                      AppInput(
                         controller: _telController,
-                        hintText: "Tel",
+                        label: "Phone",
                       ),
                       const SizedBox(
                         height: 10,
@@ -196,13 +205,8 @@ class _EditeUserPageState extends State<EditeUserPage> {
                             ),
                           ),
                         ),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       AppButton(
-                        text: "Enregistrer",
-                        firstColor: const Color(0xFFff7521),
-                        secondColor: const Color(0xFFffb421),
+                        text: "Save change",
                         onTap: () async {
                           try {
                             setState(() {
