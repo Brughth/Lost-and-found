@@ -113,6 +113,7 @@ class _LostObjePageState extends State<LostObjePage>
         },
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "btn 1",
         backgroundColor: AppColors.primary,
         onPressed: () {
           Navigator.of(context).push(

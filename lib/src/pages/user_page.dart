@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_and_found/src/authentification/auth_service.dart';
 import 'package:lost_and_found/src/pages/edite_user_page.dart';
+import 'package:lost_and_found/src/utils/app_colors.dart';
 import 'package:lost_and_found/welcome.dart';
 
 class UserProfilePage extends StatefulWidget {
@@ -32,14 +33,29 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   @override
   Widget build(BuildContext context) {
+    double screenHiegrh = MediaQuery.of(context).size.height;
+    double screenWidgth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.5,
-        backgroundColor: const Color(0xFF212121),
+        backgroundColor: AppColors.primary,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF909093)),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        title: const Text(
+          "Profile",
+          style: TextStyle(
+            color: AppColors.primaryGrayText,
+            fontWeight: FontWeight.bold,
+            fontSize: 23,
+          ),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () async {
@@ -50,7 +66,7 @@ class _UserProfilePageState extends State<UserProfilePage>
             },
             icon: const Icon(
               Icons.logout,
-              color: Color(0xFF909093),
+              color: Colors.white,
             ),
           )
         ],
@@ -77,48 +93,45 @@ class _UserProfilePageState extends State<UserProfilePage>
           }
 
           if (snapshot.hasData) {
-            //data = snapshot.data!.data() as Map<String, dynamic>;
             data = snapshot.data!.data() as Map<String, dynamic>?;
-            return ListView(
+            return Stack(
               children: [
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF212121),
-                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: screenHiegrh * .025,
                       ),
                       CircleAvatar(
                         radius: 100,
-                        backgroundColor: const Color(0xFFff7521),
+                        backgroundColor: AppColors.primary,
                         child: CircleAvatar(
                           radius: 98,
                           backgroundImage:
                               NetworkImage("${data!['photo_url'] ?? ''}"),
                         ),
                       ),
-                      const SizedBox(
-                        height: 30,
+                      SizedBox(
+                        height: screenHiegrh * .01,
                       ),
                       Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 40),
+                        margin: EdgeInsets.symmetric(
+                            horizontal: screenWidgth * .01),
                         child: Column(
                           children: [
                             ListTile(
-                              trailing: Icon(
+                              trailing: const Icon(
                                 Icons.email,
-                                color: const Color(0xFFff7521).withOpacity(.7),
+                                color: AppColors.primary,
                               ),
                               tileColor: Colors.white,
                               title: const Text(
                                 "Email",
                                 style: TextStyle(
-                                  color: Color(0xFFff7521),
+                                  color: AppColors.primary,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -127,26 +140,26 @@ class _UserProfilePageState extends State<UserProfilePage>
                                 child: Text(
                                   "${data!['email'] ?? ''}",
                                   style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.primaryText,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 17,
                                   ),
                                 ),
                               ),
                             ),
-                            const Divider(
-                              color: Color(0xFFffffff),
-                              height: 8,
+                            Divider(
+                              color: AppColors.primary,
+                              height: screenHiegrh * .008,
                             ),
                             ListTile(
-                              tileColor: Colors.white,
-                              trailing: Icon(
+                              trailing: const Icon(
                                 Icons.person,
-                                color: const Color(0xFFff7521).withOpacity(.7),
+                                color: AppColors.primary,
                               ),
                               title: const Text(
-                                "Nom",
+                                "Name",
                                 style: TextStyle(
-                                  color: Color(0xFFff7521),
+                                  color: AppColors.primary,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -155,26 +168,27 @@ class _UserProfilePageState extends State<UserProfilePage>
                                 child: Text(
                                   "${data!['name'] ?? ''}",
                                   style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.primaryText,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 17,
                                   ),
                                 ),
                               ),
                             ),
-                            const Divider(
-                              color: Color(0xFFffffff),
-                              height: 8,
+                            Divider(
+                              color: AppColors.primary,
+                              height: screenHiegrh * .008,
                             ),
                             ListTile(
                               tileColor: Colors.white,
-                              trailing: Icon(
+                              trailing: const Icon(
                                 Icons.person,
-                                color: const Color(0xFFff7521).withOpacity(.7),
+                                color: AppColors.primary,
                               ),
                               title: const Text(
                                 "Prenom",
                                 style: TextStyle(
-                                  color: Color(0xFFff7521),
+                                  color: AppColors.primary,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -183,26 +197,27 @@ class _UserProfilePageState extends State<UserProfilePage>
                                 child: Text(
                                   "${data!['subname'] ?? ''}",
                                   style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.primaryText,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 17,
                                   ),
                                 ),
                               ),
                             ),
-                            const Divider(
-                              color: Color(0xFFffffff),
-                              height: 8,
+                            Divider(
+                              color: AppColors.primary,
+                              height: screenHiegrh * .008,
                             ),
                             ListTile(
                               tileColor: Colors.white,
-                              trailing: Icon(
+                              trailing: const Icon(
                                 Icons.phone,
-                                color: const Color(0xFFff7521).withOpacity(.7),
+                                color: AppColors.primary,
                               ),
                               title: const Text(
                                 "Phone",
                                 style: TextStyle(
-                                  color: Color(0xFFff7521),
+                                  color: AppColors.primary,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -211,8 +226,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                                 child: Text(
                                   "${data!['tel'] ?? ''}",
                                   style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.primaryText,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 17,
                                   ),
                                 ),
                               ),
@@ -230,7 +246,7 @@ class _UserProfilePageState extends State<UserProfilePage>
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFFff7521).withOpacity(.8),
+        backgroundColor: AppColors.primary,
         child: const Icon(Icons.edit),
         onPressed: () {
           Navigator.push(
