@@ -101,6 +101,7 @@ class _FoundObjetPageState extends State<FoundObjetPage>
                           userImage: "${user['photo_url']}",
                           usersubname: "${user['subname']}",
                           username: "${user['name']}",
+                          isLost: false,
                         );
                       });
                 },

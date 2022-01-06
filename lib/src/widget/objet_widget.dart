@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
 import 'package:readmore/readmore.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ObjetWidget extends StatelessWidget {
   final String title;
@@ -11,6 +12,7 @@ class ObjetWidget extends StatelessWidget {
   final String username;
   final String? usersubname;
   final String createAd;
+  final bool isLost;
 
   const ObjetWidget({
     Key? key,
@@ -21,6 +23,7 @@ class ObjetWidget extends StatelessWidget {
     required this.usersubname,
     required this.username,
     required this.createAd,
+    this.isLost = true,
   }) : super(key: key);
 
   @override
@@ -164,13 +167,24 @@ class ObjetWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(
-                  Icons.share,
-                  color: AppColors.primary,
+                IconButton(
+                  icon: const Icon(
+                    Icons.share,
+                    color: AppColors.primary,
+                  ),
+                  onPressed: () async {
+                    if (isLost) {
+                      await Share.share(" $description \n\n $image");
+                    } else {
+                      await Share.share("$description \n\n $image");
+                    }
+                  },
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: const Text("put it back"),
+                  child: isLost
+                      ? const Text("put it back")
+                      : const Text("get it back"),
                 )
               ],
             ),
