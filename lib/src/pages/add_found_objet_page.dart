@@ -9,14 +9,14 @@ import 'package:lost_and_found/src/utils/app_button.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
 import 'package:lost_and_found/src/utils/app_input.dart';
 
-class AddLostObjetPage extends StatefulWidget {
-  const AddLostObjetPage({Key? key}) : super(key: key);
+class AddFoundObjetPage extends StatefulWidget {
+  const AddFoundObjetPage({Key? key}) : super(key: key);
 
   @override
-  _AddLostObjetPageState createState() => _AddLostObjetPageState();
+  _AddFoundObjetPageState createState() => _AddFoundObjetPageState();
 }
 
-class _AddLostObjetPageState extends State<AddLostObjetPage> {
+class _AddFoundObjetPageState extends State<AddFoundObjetPage> {
   late TextEditingController _titleController;
   late TextEditingController _descController;
   late Stream<QuerySnapshot<Map<String, dynamic>>> categoriesStream;
@@ -61,14 +61,14 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_sharp),
+          icon: const Icon(Icons.arrow_back_sharp),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
       ),
       body: Form(
-        autovalidateMode: AutovalidateMode.disabled,
+        //autovalidateMode: AutovalidateMode.always,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
           child: ListView(
@@ -76,14 +76,15 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
               Center(
                 child: RichText(
                   text: const TextSpan(
-                    text: "Lost",
+                    text: "Fount",
                     style: TextStyle(
-                        fontSize: 37,
-                        color: AppColors.primaryText,
-                        fontWeight: FontWeight.w700),
+                      fontSize: 37,
+                      color: AppColors.primaryText,
+                      fontWeight: FontWeight.w700,
+                    ),
                     children: [
                       TextSpan(
-                        text: " Something",
+                        text: " Something ?",
                         style: TextStyle(
                           fontSize: 37,
                           color: AppColors.primary,
@@ -117,7 +118,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
                         print(value);
                         setState(() {});
                       },
-                      hint: Text("selected category"),
+                      hint: const Text("selected category"),
                       validator: (value) {
                         if (value == null) {
                           return "Please Select a category";
@@ -174,7 +175,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
                         width: double.infinity,
                         height: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(.2),
+                          color: AppColors.primary.withOpacity(.3),
                         ),
                       ),
                     if (image != null)
@@ -182,7 +183,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
                         width: double.infinity,
                         height: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(.2),
+                          //color: AppColors.primary.withOpacity(.2),
                           image: DecorationImage(
                             image: FileImage(
                               File(image!.path),
@@ -250,7 +251,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
                     });
                   } else {
                     try {
-                      var objetRef = await _objetservice.saveObjet(data, true);
+                      var objetRef = await _objetservice.saveObjet(data, false);
 
                       try {
                         if (image != null) {

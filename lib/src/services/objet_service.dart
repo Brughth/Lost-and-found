@@ -8,9 +8,17 @@ class Objetservice {
   CollectionReference lostObjet =
       FirebaseFirestore.instance.collection("lost_objet");
 
-  Future<DocumentReference<Object?>> saveObjet(Map<String, dynamic> data) {
+  CollectionReference foundObjet =
+      FirebaseFirestore.instance.collection("found_objet");
+
+  Future<DocumentReference<Object?>> saveObjet(
+      Map<String, dynamic> data, bool isLost) {
     data["createdAt"] = DateTime.now().toUtc().toIso8601String();
-    return lostObjet.add(data);
+    if (isLost) {
+      return lostObjet.add(data);
+    } else {
+      return foundObjet.add(data);
+    }
   }
 
   Future<String> uploadFileToFireStorage(File file, String name) async {
