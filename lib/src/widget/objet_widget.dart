@@ -174,9 +174,9 @@ class ObjetWidget extends StatelessWidget {
                   ),
                   onPressed: () async {
                     if (isLost) {
-                      await Share.share(" $description \n\n $image");
+                      await Share.share(" $description \n\n$image");
                     } else {
-                      await Share.share("$description \n\n $image");
+                      await Share.share("$description \n\n$image");
                     }
                   },
                 ),

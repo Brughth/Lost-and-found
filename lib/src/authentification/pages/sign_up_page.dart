@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:lost_and_found/home_page.dart';
 import 'package:lost_and_found/src/authentification/auth_service.dart';
-import 'package:lost_and_found/src/widget/app_button.dart';
+import 'package:lost_and_found/src/utils/app_button.dart';
+import 'package:lost_and_found/src/utils/app_input.dart';
 import 'package:lost_and_found/src/widget/app_imput.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -66,16 +67,8 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(
                 height: 30,
               ),
-              // Text(
-              //   //'Sign up to see photos\nand videos from your\nfriends.',
-              //   'Inscrire toi pour trouver un\nl\'objet perdu ou le propriétaire\nd\'un l’objet ramassé.',
-              //   style: TextStyle(
-              //     color: Color(0xFF909093),
-              //     fontSize: 25,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              Container(
+
+              SizedBox(
                 height: 100,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -118,10 +111,16 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    AppImput(
+                    // AppImput(
+                    //   controller: _nameController,
+                    //   hintText: "Nom",
+                    // ),
+
+                    AppInput(
                       controller: _nameController,
-                      hintText: "Nom",
+                      label: "Name",
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
@@ -169,8 +168,6 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               AppButton(
                 text: "S'inscrire",
-                firstColor: const Color(0xFFff7521),
-                secondColor: const Color(0xFFffb421),
                 onTap: () async {
                   try {
                     setState(() {
