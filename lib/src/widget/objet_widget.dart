@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lost_and_found/src/chat/chat_page.dart';
+import 'package:lost_and_found/src/chat/chat_parans.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
 import 'package:readmore/readmore.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +9,7 @@ import 'package:share_plus/share_plus.dart';
 
 class ObjetWidget extends StatelessWidget {
   final String title;
+  final String userId;
   final String description;
   final String image;
   final String? userImage;
@@ -19,6 +23,7 @@ class ObjetWidget extends StatelessWidget {
     required this.title,
     required this.description,
     required this.image,
+    required this.userId,
     required this.userImage,
     required this.usersubname,
     required this.username,
@@ -181,7 +186,20 @@ class ObjetWidget extends StatelessWidget {
                   },
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    ChatParams chatParams = ChatParams(
+                      userId: FirebaseAuth.instance.currentUser!.uid,
+                      peerId: userId,
+                      peerName: username,
+                    );
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ChatPage(
+                          chatParams: chatParams,
+                        ),
+                      ),
+                    );
+                  },
                   child: isLost
                       ? const Text("put it back")
                       : const Text("get it back"),

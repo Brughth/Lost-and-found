@@ -103,6 +103,7 @@ class _LostObjePageState extends State<LostObjePage>
                           userImage: "${user['photo_url']}",
                           usersubname: "${user['subname']}",
                           username: "${user['name']}",
+                          userId: "${objet['user_id']}",
                         );
                       });
                 },

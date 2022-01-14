@@ -100,6 +100,7 @@ class _FoundObjetPageState extends State<FoundObjetPage>
                           createAd: "${objet['createdAt']}",
                           userImage: "${user['photo_url']}",
                           usersubname: "${user['subname']}",
+                          userId: "${objet['user_id']}",
                           username: "${user['name']}",
                           isLost: false,
                         );
