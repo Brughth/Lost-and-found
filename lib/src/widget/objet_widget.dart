@@ -25,7 +25,7 @@ class ObjetWidget extends StatelessWidget {
     required this.image,
     required this.userId,
     required this.userImage,
-    required this.usersubname,
+    this.usersubname,
     required this.username,
     required this.createAd,
     this.isLost = true,
@@ -49,7 +49,7 @@ class ObjetWidget extends StatelessWidget {
             padding: const EdgeInsets.all(5.0),
             child: Row(
               children: [
-                (userImage == null || userImage == "")
+                (userImage == null || userImage!.isEmpty)
                     ? const CircleAvatar(
                         backgroundColor: Colors.blue,
                         radius: 25,
@@ -78,15 +78,16 @@ class ObjetWidget extends StatelessWidget {
                               fontSize: 17,
                             ),
                             children: [
-                              if (usersubname != null)
-                                TextSpan(
-                                  text: usersubname,
-                                  style: const TextStyle(
-                                    color: AppColors.primaryText,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 17,
-                                  ),
+                              TextSpan(
+                                text: (usersubname!.isNotEmpty)
+                                    ? usersubname
+                                    : " ",
+                                style: const TextStyle(
+                                  color: AppColors.primaryText,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 17,
                                 ),
+                              ),
                             ],
                           ),
                         ),

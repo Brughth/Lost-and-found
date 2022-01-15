@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lost_and_found/src/chat/chat_page.dart';
 import 'package:lost_and_found/src/chat/chat_parans.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
@@ -47,6 +48,7 @@ class _HomeChtaPageState extends State<HomeChtaPage> {
             .collection("conversations")
             .doc(currentUser.uid)
             .collection(currentUser.uid)
+            .orderBy('updateAt', descending: true)
             .snapshots(),
         builder: (BuildContext context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshop) {
@@ -55,7 +57,6 @@ class _HomeChtaPageState extends State<HomeChtaPage> {
           }
 
           if (snapshop.hasError) {
-            print(snapshop.error);
             return Center(
               child: Text(
                 snapshop.error.toString(),
@@ -176,17 +177,19 @@ class _HomeChtaPageState extends State<HomeChtaPage> {
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
-                                            // Padding(
-                                            //   padding:
-                                            //       EdgeInsets.only(right: 8.0),
-                                            //   child: Text(
-                                            //     "data ici",
-                                            //     style: TextStyle(
-                                            //       color: AppColors.primaryText,
-                                            //       fontSize: 15,
-                                            //     ),
-                                            //   ),
-                                            // ),
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 8.0),
+                                              child: Text(
+                                                DateFormat.yMMMd().format(
+                                                    DateTime.parse(
+                                                        "${uid['updateAt']}")),
+                                                style: const TextStyle(
+                                                  color: AppColors.primaryText,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),

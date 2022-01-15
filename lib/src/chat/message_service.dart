@@ -18,14 +18,20 @@ class MessageService {
         .doc(chatParams.userId)
         .collection(chatParams.userId)
         .doc(chatParams.getChatGroupId())
-        .set({'freindId': chatParams.peerId});
+        .set({
+      'freindId': chatParams.peerId,
+      'updateAt': DateTime.now().toString(),
+    });
 
     FirebaseFirestore.instance
         .collection("conversations")
         .doc(chatParams.peerId)
         .collection(chatParams.peerId)
         .doc(chatParams.getChatGroupId())
-        .set({'freindId': chatParams.userId});
+        .set({
+      'freindId': chatParams.userId,
+      'updateAt': DateTime.now().toString(),
+    });
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.set(

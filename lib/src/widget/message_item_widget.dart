@@ -16,6 +16,7 @@ class MessageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screemWidth = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment: userId == message.idFrom
           ? CrossAxisAlignment.end
@@ -36,7 +37,10 @@ class MessageItem extends StatelessWidget {
                 ),
               ),
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-              width: 200,
+              //width: screemWidth * .7,
+              constraints: BoxConstraints(
+                maxWidth: screemWidth * .7,
+              ),
               decoration: BoxDecoration(
                 color: userId == message.idFrom
                     ? AppColors.primary.withOpacity(.8)
@@ -49,7 +53,7 @@ class MessageItem extends StatelessWidget {
                       )
                     : const BorderRadius.only(
                         topRight: Radius.circular(15),
-                        topLeft: Radius.circular(15),
+                        bottomLeft: Radius.circular(15),
                         bottomRight: Radius.circular(15),
                       ),
               ),
