@@ -98,7 +98,6 @@ class _ChatPageState extends State<ChatPage> {
           }
 
           if (snapshot.hasError) {
-            print("errorsms ${snapshot.error}");
             return Text(
               snapshot.error.toString(),
               style: const TextStyle(color: Colors.red),
@@ -106,7 +105,7 @@ class _ChatPageState extends State<ChatPage> {
           }
           if (snapshot.hasData) {
             List<Message> listMessage = snapshot.data ?? List.from(([]));
-            print("leisms $listMessage");
+
             return ListView.builder(
               padding: const EdgeInsets.all(8.0),
               itemCount: listMessage.length,
@@ -152,7 +151,7 @@ class _ChatPageState extends State<ChatPage> {
               if (_MessageController.text.isNotEmpty ||
                   _MessageController.text != "") {
                 _messageService.onSendMessage(
-                  gropChatId: widget.chatParams.getChatGroupId(),
+                  chatParams: widget.chatParams,
                   message: Message(
                     idFrom: widget.chatParams.userId,
                     idTo: widget.chatParams.peerId,

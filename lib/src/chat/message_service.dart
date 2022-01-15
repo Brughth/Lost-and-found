@@ -1,13 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lost_and_found/src/chat/chat_parans.dart';
 import 'package:lost_and_found/src/chat/message.dart';
 
 class MessageService {
-  void onSendMessage({required String gropChatId, required Message message}) {
+  void onSendMessage({
+    required ChatParams chatParams,
+    required Message message,
+  }) {
     var documentReference = FirebaseFirestore.instance
         .collection("messages")
-        .doc(gropChatId)
-        .collection(gropChatId)
+        .doc(chatParams.getChatGroupId())
+        .collection(chatParams.getChatGroupId())
         .doc(DateTime.now().millisecondsSinceEpoch.toString());
+
+    FirebaseFirestore.instance
+        .collection("conversations")
+        .doc(chatParams.userId)
+        .collection(chatParams.userId)
+        .doc(chatParams.getChatGroupId())
+        .set({'freindId': chatParams.peerId});
+
+    FirebaseFirestore.instance
+        .collection("conversations")
+        .doc(chatParams.peerId)
+        .collection(chatParams.peerId)
+        .doc(chatParams.getChatGroupId())
+        .set({'freindId': chatParams.userId});
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.set(
@@ -32,6 +50,17 @@ class MessageService {
   }
 
   Stream<List<Message>> getMessages(String groupChatId, int limit) {
+    return FirebaseFirestore.instance
+        .collection("messages")
+        .doc(groupChatId)
+        .collection(groupChatId)
+        .orderBy("timestamp", descending: true)
+        .limit(limit)
+        .snapshots()
+        .map(_messageListFromSnaphots);
+  }
+
+  Stream<List<Message>> getUserchat(String groupChatId, int limit) {
     return FirebaseFirestore.instance
         .collection("messages")
         .doc(groupChatId)

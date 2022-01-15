@@ -49,20 +49,19 @@ class ObjetWidget extends StatelessWidget {
             padding: const EdgeInsets.all(5.0),
             child: Row(
               children: [
-                if (userImage == null)
-                  const CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    radius: 25,
-                  ),
-                if (userImage != null)
-                  CircleAvatar(
-                    backgroundColor: AppColors.primary,
-                    radius: 26,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(userImage!),
-                      radius: 25,
-                    ),
-                  ),
+                (userImage == null || userImage == "")
+                    ? const CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        radius: 25,
+                      )
+                    : CircleAvatar(
+                        backgroundColor: AppColors.primary,
+                        radius: 26,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(userImage!),
+                          radius: 25,
+                        ),
+                      ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0),

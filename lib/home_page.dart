@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lost_and_found/src/authentification/auth_service.dart';
+import 'package:lost_and_found/src/chat/home_chat_page.dart';
 import 'package:lost_and_found/src/pages/found_objet_page.dart';
 import 'package:lost_and_found/src/pages/lost_objet_page.dart';
 import 'package:lost_and_found/src/pages/user_page.dart';
@@ -32,7 +32,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         elevation: 0,
         leading: IconButton(
           splashColor: AppColors.primary,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => HomeChtaPage()));
+          },
           icon: Icon(
             Icons.message,
             color: AppColors.hexToColor("ffffff"),
