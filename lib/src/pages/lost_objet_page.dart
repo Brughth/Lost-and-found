@@ -13,17 +13,34 @@ class LostObjePage extends StatefulWidget {
 
 class _LostObjePageState extends State<LostObjePage>
     with AutomaticKeepAliveClientMixin {
-  late Stream<QuerySnapshot> objetStream;
   late List<QueryDocumentSnapshot> data;
+  int limit = 5;
+  bool hasMore = false;
+  bool isLoading = false;
+  final int increment_limit = 5;
+  late ScrollController scrollController;
 
   @override
   void initState() {
-    objetStream = FirebaseFirestore.instance
-        .collection("lost_objet")
-        .orderBy("createdAt", descending: true)
-        .snapshots();
+    scrollController = ScrollController();
 
+    scrollController.addListener(scrollListernner);
     super.initState();
+  }
+
+  scrollListernner() {
+    setState(() {
+      isLoading = true;
+    });
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      setState(() {
+        limit += increment_limit;
+      });
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -33,85 +50,101 @@ class _LostObjePageState extends State<LostObjePage>
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: StreamBuilder<QuerySnapshot>(
-        stream: objetStream,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                "${snapshot.error}",
-                style: const TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-            );
-          }
-          if (snapshot.hasData) {
-            data = snapshot.data!.docs;
-
-            if (snapshot.data!.size == 0) {
-              return const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text("No lost objet yet"),
-                ),
-              );
-            } else {
-              return ListView.separated(
-                itemCount: snapshot.data!.size,
-                separatorBuilder: (context, index) {
-                  return Container(
-                    height: screenHeigth * 0.01,
-                    decoration: const BoxDecoration(color: AppColors.grayScale),
+      body: Column(
+        children: [
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection("lost_objet")
+                  .orderBy("createdAt", descending: true)
+                  .limit(limit)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      "${snapshot.error}",
+                      style: const TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
                   );
-                },
-                itemBuilder: (context, index) {
-                  var objet = data[index];
-                  var userStream = FirebaseFirestore.instance
-                      .collection("users")
-                      .doc("${objet['user_id']}")
-                      .snapshots();
-                  return StreamBuilder<DocumentSnapshot>(
-                      stream: userStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot> snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text(
-                              "${snapshot.error}",
-                              style: const TextStyle(
-                                color: Colors.red,
-                              ),
-                            ),
-                          );
-                        }
+                }
+                if (snapshot.hasData) {
+                  data = snapshot.data!.docs;
 
-                        var user =
-                            snapshot.data!.data() as Map<String, dynamic>;
-                        return ObjetWidget(
-                          title: "${objet['title']}",
-                          description: "${objet['description']}",
-                          image: "${objet['image']}",
-                          createAd: "${objet['createdAt']}",
-                          userImage: "${user['photo_url']}",
-                          usersubname: "${user['subname']}",
-                          username: "${user['name']}",
-                          userId: "${objet['user_id']}",
+                  if (snapshot.data!.size == 0) {
+                    return const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text("No lost objet yet"),
+                      ),
+                    );
+                  } else {
+                    return ListView.separated(
+                      controller: scrollController,
+                      itemCount: snapshot.data!.size,
+                      separatorBuilder: (context, index) {
+                        return Container(
+                          height: screenHeigth * 0.01,
+                          decoration:
+                              const BoxDecoration(color: AppColors.grayScale),
                         );
-                      });
-                },
-              );
-            }
-          }
-          return Container();
-        },
+                      },
+                      itemBuilder: (context, index) {
+                        var objet = data[index];
+                        var userStream = FirebaseFirestore.instance
+                            .collection("users")
+                            .doc("${objet['user_id']}")
+                            .snapshots();
+                        return StreamBuilder<DocumentSnapshot>(
+                            stream: userStream,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<DocumentSnapshot> snapshot) {
+                              if (!snapshot.hasData) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+                              if (snapshot.hasError) {
+                                return Center(
+                                  child: Text(
+                                    "${snapshot.error}",
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              var user =
+                                  snapshot.data!.data() as Map<String, dynamic>;
+                              return ObjetWidget(
+                                title: "${objet['title']}",
+                                description: "${objet['description']}",
+                                image: "${objet['image']}",
+                                createAd: "${objet['createdAt']}",
+                                userImage: "${user['photo_url']}",
+                                usersubname: "${user['subname']}",
+                                username: "${user['name']}",
+                                userId: "${objet['user_id']}",
+                              );
+                            });
+                      },
+                    );
+                  }
+                }
+                return Container();
+              },
+            ),
+          ),
+          isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Container(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: "btn 1",
