@@ -45,6 +45,7 @@ dependencies:
   share_plus: ^3.0.4
   intl: ^0.17.0
   fluttertoast: ^8.0.8
+  firebase_messaging: ^11.2.5
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lost_and_found/src/chat/notification_service.dart';
 import 'package:lost_and_found/src/services/user_services.dart';
 
 class AuthServices {
   //instantiation le la class
   late UserService _userService;
+  NotificationService notificationService = NotificationService();
 
   AuthServices() {
     _userService = UserService();
@@ -32,6 +34,10 @@ class AuthServices {
     _userService.updateAccount(userCredential.user!.uid,
         {"name": name.trim(), "email": email.trim(), "tel": tel.trim()});
 
+    String? token = await notificationService.getToken();
+
+    _userService.saveToken(token!, userCredential.user!.uid);
+
     return userCredential;
   }
 
@@ -43,6 +49,10 @@ class AuthServices {
       email: email.trim(),
       password: password.trim(),
     );
+
+    String? token = await notificationService.getToken();
+
+    _userService.saveToken(token!, userCredential.user!.uid);
 
     return userCredential;
   }
