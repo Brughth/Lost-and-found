@@ -20,7 +20,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
   late TextEditingController _titleController;
   late TextEditingController _descController;
   late Stream<QuerySnapshot<Map<String, dynamic>>> categoriesStream;
-  Map<String, dynamic>? selectedCategory = Map();
+  Map<String, dynamic>? selectedCategory = {};
   late User? user;
 
   XFile? image;
@@ -30,10 +30,10 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
   bool? isLoading;
 
   Future getData() async {
-    Map<String, dynamic> data = Map();
+    Map<String, dynamic> data = {};
     data['title'] = _titleController.text;
     data['description'] = _descController.text;
-    data['user_id'] = FirebaseAuth.instance.currentUser!.uid;
+    data['user_id'] = user!.uid;
     data['category_id'] = selectedCategory!['id'];
     data['category'] = selectedCategory!;
     return data;

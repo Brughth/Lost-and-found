@@ -8,6 +8,10 @@ class UserService {
     return users.doc(id).set(data, SetOptions(merge: true));
   }
 
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUser(String uid) {
+    return firestore.collection("users").doc(uid).get();
+  }
+
   Future<void> saveToken(String token, String uid) async {
     return await FirebaseFirestore.instance
         .collection("users")

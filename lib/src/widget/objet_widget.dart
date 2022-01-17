@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lost_and_found/src/chat/chat_page.dart';
 import 'package:lost_and_found/src/chat/chat_parans.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
@@ -187,18 +188,27 @@ class ObjetWidget extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
+                    String uid = FirebaseAuth.instance.currentUser!.uid;
                     ChatParams chatParams = ChatParams(
-                      userId: FirebaseAuth.instance.currentUser!.uid,
+                      userId: uid,
                       peerId: userId,
                       peerName: username,
                     );
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ChatPage(
-                          chatParams: chatParams,
+                    if (userId != uid) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ChatPage(
+                            chatParams: chatParams,
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "Can't chat with you self",
+                        backgroundColor: AppColors.primary,
+                        textColor: Colors.white,
+                      );
+                    }
                   },
                   child: isLost
                       ? const Text("put it back")
