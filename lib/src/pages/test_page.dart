@@ -15,7 +15,7 @@ class _TestPageState extends State<TestPage> {
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
         if (state.user == null) {
-          context.read<UserCubit>().getAuthenticatedUser();
+          context.read<UserCubit>().getAuthenticatedUser("s");
           return const Center(child: CircularProgressIndicator());
         }
 
@@ -43,7 +43,7 @@ class _TestPageState extends State<TestPage> {
                   ),
                 ),
                 Text(
-                  state.user!.teken!,
+                  state.user!.token!,
                   style: const TextStyle(
                     fontSize: 20,
                   ),

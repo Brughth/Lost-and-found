@@ -14,7 +14,7 @@ class LostObjePage extends StatefulWidget {
 class _LostObjePageState extends State<LostObjePage>
     with AutomaticKeepAliveClientMixin {
   late List<QueryDocumentSnapshot> data;
-  int limit = 5;
+  int limit = 3;
   bool hasMore = false;
   bool isLoading = false;
   final int increment_limit = 5;
@@ -46,7 +46,6 @@ class _LostObjePageState extends State<LostObjePage>
   @override
   Widget build(BuildContext context) {
     double screenHeigth = MediaQuery.of(context).size.height;
-    // double screenwidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -102,43 +101,19 @@ class _LostObjePageState extends State<LostObjePage>
                         );
                       },
                       itemBuilder: (context, index) {
-                        var objet = data[index];
-                        var userStream = FirebaseFirestore.instance
-                            .collection("users")
-                            .doc("${objet['user_id']}")
-                            .snapshots();
-                        return StreamBuilder<DocumentSnapshot>(
-                            stream: userStream,
-                            builder: (BuildContext context,
-                                AsyncSnapshot<DocumentSnapshot> snapshot) {
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                              if (snapshot.hasError) {
-                                return Center(
-                                  child: Text(
-                                    "${snapshot.error}",
-                                    style: const TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                );
-                              }
+                        var object = data[index];
 
-                              var user =
-                                  snapshot.data!.data() as Map<String, dynamic>;
-                              return ObjetWidget(
-                                title: "${objet['title']}",
-                                description: "${objet['description']}",
-                                image: "${objet['image']}",
-                                createAd: "${objet['createdAt']}",
-                                userImage: "${user['photo_url']}",
-                                usersubname: "${user['subname']}",
-                                username: "${user['name']}",
-                                userId: "${objet['user_id']}",
-                              );
-                            });
+                        return ObjetWidget(
+                          title: object['title'],
+                          description: object['description'],
+                          image: object['image'],
+                          userId: object['user_id'],
+                          userImage: object['user_photo'],
+                          username: object['user_name'],
+                          createAd: object['createdAt'],
+                          usersubname: object['user_subname'],
+                          isLost: true,
+                        );
                       },
                     );
                   }

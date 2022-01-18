@@ -35,6 +35,7 @@ class ObjetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHeigth = MediaQuery.of(context).size.height;
+    double screenWidght = MediaQuery.of(context).size.width;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
@@ -80,9 +81,7 @@ class ObjetWidget extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: (usersubname!.isNotEmpty)
-                                    ? usersubname
-                                    : " ",
+                                text: usersubname ?? " ",
                                 style: const TextStyle(
                                   color: AppColors.primaryText,
                                   fontWeight: FontWeight.w700,
@@ -97,13 +96,16 @@ class ObjetWidget extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                title,
-                                style: const TextStyle(
-                                  color: AppColors.primaryText,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  overflow: TextOverflow.ellipsis,
+                              SizedBox(
+                                width: screenWidght * .5,
+                                child: Text(
+                                  title,
+                                  style: const TextStyle(
+                                    color: AppColors.primaryText,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                               Padding(

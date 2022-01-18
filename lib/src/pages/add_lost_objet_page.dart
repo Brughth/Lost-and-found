@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lost_and_found/src/authentification/cubit/user_cubit.dart';
 import 'package:lost_and_found/src/services/objet_service.dart';
 import 'package:lost_and_found/src/utils/app_button.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
@@ -49,7 +51,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
     _objetservice = Objetservice();
 
     user = FirebaseAuth.instance.currentUser;
-    print(user);
+
     super.initState();
   }
 
@@ -61,231 +63,243 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_sharp),
+          icon: const Icon(Icons.arrow_back_sharp),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
       ),
-      body: Form(
-        autovalidateMode: AutovalidateMode.disabled,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
-          child: ListView(
-            children: [
-              Center(
-                child: RichText(
-                  text: const TextSpan(
-                    text: "Lost",
-                    style: TextStyle(
-                        fontSize: 37,
-                        color: AppColors.primaryText,
-                        fontWeight: FontWeight.w700),
-                    children: [
-                      TextSpan(
-                        text: " Something",
+      body: BlocBuilder<UserCubit, UserState>(
+        builder: (context, state) {
+          print("useremail: ${state.user!.email}");
+          return Form(
+            autovalidateMode: AutovalidateMode.disabled,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
+              child: ListView(
+                children: [
+                  Center(
+                    child: RichText(
+                      text: const TextSpan(
+                        text: "Lost",
                         style: TextStyle(
-                          fontSize: 37,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: screenwidth * 0.02,
-              ),
-              StreamBuilder(
-                stream: categoriesStream,
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
-                  if (snapshot.hasData) {
-                    List<QueryDocumentSnapshot<Object?>> cats =
-                        snapshot.data!.docs;
-
-                    return DropdownButtonFormField<String>(
-                      onChanged: (value) {
-                        selectedCategory ??= Map();
-                        selectedCategory!['id'] = value;
-                        print(value);
-                        setState(() {});
-                      },
-                      hint: Text("selected category"),
-                      validator: (value) {
-                        if (value == null) {
-                          return "Please Select a category";
-                        }
-                        return null;
-                      },
-                      value: selectedCategory!['id'],
-                      items: cats.map((d) {
-                        var cat = d.data()! as Map<String, dynamic>;
-                        cat['id'] = d.id;
-                        return DropdownMenuItem<String>(
-                          child: Text("${cat['title']}"),
-                          value: cat['id'],
-                        );
-                      }).toList(),
-                    );
-                  }
-                  return Container();
-                },
-              ),
-              SizedBox(
-                height: screenwidth * 0.01,
-              ),
-              AppInput(
-                controller: _titleController,
-                label: "title",
-                validator: (value) {
-                  return "Please enter title";
-                },
-              ),
-              AppInput(
-                controller: _descController,
-                label: "Description",
-                validator: (value) {
-                  return "Please enter Description";
-                },
-                maxLines: 5,
-              ),
-              SizedBox(
-                height: screenwidth * 0.02,
-              ),
-              Container(
-                width: double.infinity,
-                height: screenHeigth * .28,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black26,
-                  ),
-                ),
-                child: Stack(
-                  children: [
-                    if (image == null)
-                      Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(.2),
-                        ),
-                      ),
-                    if (image != null)
-                      Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(.2),
-                          image: DecorationImage(
-                            image: FileImage(
-                              File(image!.path),
+                            fontSize: 37,
+                            color: AppColors.primaryText,
+                            fontWeight: FontWeight.w700),
+                        children: [
+                          TextSpan(
+                            text: " Something ?",
+                            style: TextStyle(
+                              fontSize: 37,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w700,
                             ),
-                            fit: BoxFit.cover,
                           ),
-                        ),
-                      ),
-                    Positioned(
-                      right: 5,
-                      top: 5,
-                      child: GestureDetector(
-                        onTap: () async {
-                          final ImagePicker _picker = ImagePicker();
-                          final XFile? img = await _picker.pickImage(
-                              source: ImageSource.gallery);
-                          if (img != null) {
-                            setState(() {
-                              image = img;
-                            });
-                          }
-                        },
-                        child: const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: Icon(
-                            Icons.add_a_photo,
-                            color: AppColors.primary,
-                          ),
-                        ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: screenwidth * 0.01,
-              ),
-              if (isLoading == true)
-                const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              if (error != null)
-                Center(
-                  child: Text(error!),
-                ),
-              AppButton(
-                text: "Send",
-                onTap: () async {
-                  setState(() {
-                    isLoading = true;
-                    error = null;
-                  });
+                  ),
+                  SizedBox(
+                    height: screenwidth * 0.02,
+                  ),
+                  StreamBuilder(
+                    stream: categoriesStream,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      }
+                      if (snapshot.hasData) {
+                        List<QueryDocumentSnapshot<Object?>> cats =
+                            snapshot.data!.docs;
 
-                  var data = await getData();
+                        return DropdownButtonFormField<String>(
+                          onChanged: (value) {
+                            selectedCategory ??= {};
+                            selectedCategory!['id'] = value;
+                            print(value);
+                            setState(() {});
+                          },
+                          hint: const Text("selected category"),
+                          validator: (value) {
+                            if (value == null) {
+                              return "Please Select a category";
+                            }
+                            return null;
+                          },
+                          value: selectedCategory!['id'],
+                          items: cats.map((d) {
+                            var cat = d.data()! as Map<String, dynamic>;
+                            cat['id'] = d.id;
+                            return DropdownMenuItem<String>(
+                              child: Text("${cat['title']}"),
+                              value: cat['id'],
+                            );
+                          }).toList(),
+                        );
+                      }
+                      return Container();
+                    },
+                  ),
+                  SizedBox(
+                    height: screenwidth * 0.01,
+                  ),
+                  AppInput(
+                    controller: _titleController,
+                    label: "title",
+                    validator: (value) {
+                      return "Please enter title";
+                    },
+                  ),
+                  AppInput(
+                    controller: _descController,
+                    label: "Description",
+                    validator: (value) {
+                      return "Please enter Description";
+                    },
+                    maxLines: 5,
+                  ),
+                  SizedBox(
+                    height: screenwidth * 0.02,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: screenHeigth * .28,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black26,
+                      ),
+                    ),
+                    child: Stack(
+                      children: [
+                        if (image == null)
+                          Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(.2),
+                            ),
+                          ),
+                        if (image != null)
+                          Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(.2),
+                              image: DecorationImage(
+                                image: FileImage(
+                                  File(image!.path),
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        Positioned(
+                          right: 5,
+                          top: 5,
+                          child: GestureDetector(
+                            onTap: () async {
+                              final ImagePicker _picker = ImagePicker();
+                              final XFile? img = await _picker.pickImage(
+                                  source: ImageSource.gallery);
+                              if (img != null) {
+                                setState(() {
+                                  image = img;
+                                });
+                              }
+                            },
+                            child: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.add_a_photo,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenwidth * 0.01,
+                  ),
+                  if (isLoading == true)
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  if (error != null)
+                    Center(
+                      child: Text(error!),
+                    ),
+                  AppButton(
+                    text: "Send",
+                    onTap: () async {
+                      setState(() {
+                        isLoading = true;
+                        error = null;
+                      });
 
-                  print("olicedata $data");
+                      var data = await getData();
+                      data['user_id'] = state.user!.uid;
+                      data['user_name'] = state.user!.name;
+                      data['user_subname'] = state.user!.subname;
+                      data['user_email'] = state.user!.email;
+                      data['user_tel'] = state.user!.tel;
+                      data['token'] = state.user!.token;
+                      data['user_photo'] = state.user!.photoUrl;
 
-                  if (data['title'] == null ||
-                      data['description'] == null ||
-                      data['category_id'] == null ||
-                      image == null) {
-                    setState(() {
-                      error = "please fill in all the fields";
-                      isLoading = false;
-                    });
-                  } else {
-                    try {
-                      var objetRef = await _objetservice.saveObjet(data, true);
+                      if (data['title'] == null ||
+                          data['description'] == null ||
+                          data['category_id'] == null ||
+                          image == null) {
+                        setState(() {
+                          error = "please fill in all the fields";
+                          isLoading = false;
+                        });
+                      } else {
+                        try {
+                          var objetRef =
+                              await _objetservice.saveObjet(data, true);
 
-                      try {
-                        if (image != null) {
-                          imageUrl =
-                              await _objetservice.uploadFileToFireStorage(
-                                  File(image!.path), image!.name);
+                          try {
+                            if (image != null) {
+                              imageUrl =
+                                  await _objetservice.uploadFileToFireStorage(
+                                      File(image!.path), image!.name);
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
+
+                          if (imageUrl != null) {
+                            await objetRef.update({"image": imageUrl});
+                          }
+
+                          setState(() {
+                            isLoading = false;
+                            _titleController.clear();
+                            _descController.clear();
+                            image = null;
+                          });
+                          Navigator.of(context).pop();
+                        } catch (e) {
+                          print(e);
+                          setState(() {
+                            error = e.toString();
+                            isLoading = false;
+                          });
                         }
-                      } catch (e) {
-                        print(e);
                       }
-
-                      if (imageUrl != null) {
-                        await objetRef.update({"image": imageUrl});
-                      }
-
-                      setState(() {
-                        isLoading = false;
-                        _titleController.clear();
-                        _descController.clear();
-                        image = null;
-                      });
-                      Navigator.of(context).pop();
-                    } catch (e) {
-                      print(e);
-                      setState(() {
-                        error = e.toString();
-                        isLoading = false;
-                      });
-                    }
-                  }
-                },
-              )
-            ],
-          ),
-        ),
+                    },
+                  )
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

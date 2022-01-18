@@ -4,7 +4,7 @@ class UserModel {
   String email;
   String tel;
   String? subname;
-  String? teken;
+  String? token;
   String? photoUrl;
 
   UserModel({
@@ -13,7 +13,7 @@ class UserModel {
     required this.email,
     required this.tel,
     this.subname,
-    this.teken,
+    this.token,
     this.photoUrl,
   });
 }
