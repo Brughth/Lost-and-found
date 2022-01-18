@@ -58,6 +58,29 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
+  register({
+    required String name,
+    required String email,
+    required String password,
+    required String tel,
+  }) async {
+    try {
+      await authServices.registedWithEmailAndPassword(
+        name: name,
+        email: email,
+        tel: tel,
+        password: password,
+      );
+
+      await attemptLogin(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
   getAuthenticatedUser(String userId) async {
     try {
       var data =
