@@ -1,10 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lost_and_found/home_page.dart';
-import 'package:lost_and_found/src/authentification/auth_service.dart';
 import 'package:lost_and_found/src/authentification/cubit/user_cubit.dart';
 import 'package:lost_and_found/src/widget/app_button.dart';
 import 'package:lost_and_found/src/widget/app_imput.dart';
@@ -21,13 +19,11 @@ class _SignInPageState extends State<SignInPage> {
   late TextEditingController _emailController;
   String? error;
   bool isLoading = false;
-  late AuthServices _authServices;
 
   @override
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    _authServices = AuthServices();
     super.initState();
   }
 
@@ -72,7 +68,7 @@ class _SignInPageState extends State<SignInPage> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Container(
+                  SizedBox(
                     height: 100,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

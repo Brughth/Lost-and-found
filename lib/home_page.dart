@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lost_and_found/src/authentification/auth_service.dart';
 import 'package:lost_and_found/src/chat/home_chat_page.dart';
 import 'package:lost_and_found/src/chat/notification_service.dart';
 import 'package:lost_and_found/src/pages/found_objet_page.dart';
@@ -16,12 +15,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  late AuthServices _authServices;
   int currentPage = 0;
   late TabController _tabController;
   @override
   void initState() {
-    _authServices = AuthServices();
     _tabController = TabController(vsync: this, length: 2);
     super.initState();
   }
@@ -36,8 +33,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         leading: IconButton(
           splashColor: AppColors.primary,
           onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => HomeChtaPage()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const HomeChtaPage()));
           },
           icon: Icon(
             Icons.message,

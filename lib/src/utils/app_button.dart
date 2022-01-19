@@ -40,7 +40,7 @@ class AppButton extends StatelessWidget {
                   child: leading!,
                 ),
               Text(
-                "$text",
+                text,
                 style: TextStyle(
                   color: disabled ? textColor.withOpacity(.5) : textColor,
                   fontWeight: FontWeight.w400,

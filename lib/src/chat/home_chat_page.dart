@@ -178,8 +178,8 @@ class _HomeChtaPageState extends State<HomeChtaPage> {
                                               ),
                                             ),
                                             Padding(
-                                              padding:
-                                                  EdgeInsets.only(right: 8.0),
+                                              padding: const EdgeInsets.only(
+                                                  right: 8.0),
                                               child: Text(
                                                 DateFormat.yMMMd().format(
                                                     DateTime.parse(

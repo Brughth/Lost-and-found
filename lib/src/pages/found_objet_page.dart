@@ -14,10 +14,10 @@ class FoundObjetPage extends StatefulWidget {
 class _FoundObjetPageState extends State<FoundObjetPage>
     with AutomaticKeepAliveClientMixin {
   late List<QueryDocumentSnapshot> data;
-  int limit = 5;
+  int limit = 4;
   bool hasMore = false;
   bool isLoading = false;
-  final int increment_limit = 5;
+  final int incrementLimit = 4;
   late ScrollController scrollController;
 
   @override
@@ -36,7 +36,7 @@ class _FoundObjetPageState extends State<FoundObjetPage>
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
       setState(() {
-        limit += increment_limit;
+        limit += incrementLimit;
       });
     }
     setState(() {

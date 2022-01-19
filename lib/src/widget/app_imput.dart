@@ -38,8 +38,8 @@ class AppImput extends StatelessWidget {
             color: Colors.grey,
             fontSize: 14,
           ),
-          border: new UnderlineInputBorder(
-            borderSide: new BorderSide(
+          border: const UnderlineInputBorder(
+            borderSide: BorderSide(
               color: Color(0xFFf99321),
             ),
           ),

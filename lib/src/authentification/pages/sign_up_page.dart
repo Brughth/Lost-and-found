@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lost_and_found/home_page.dart';
-import 'package:lost_and_found/src/authentification/auth_service.dart';
 import 'package:lost_and_found/src/authentification/cubit/user_cubit.dart';
 import 'package:lost_and_found/src/utils/app_button.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
@@ -19,12 +17,11 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _telController;
   late TextEditingController _passwordController;
-  late AuthServices _authServices;
   String? error;
   bool isLoading = false;
 
@@ -34,7 +31,6 @@ class _SignUpPageState extends State<SignUpPage> {
     _emailController = TextEditingController();
     _telController = TextEditingController();
     _passwordController = TextEditingController();
-    _authServices = AuthServices();
     super.initState();
   }
 
@@ -156,9 +152,19 @@ class _SignUpPageState extends State<SignUpPage> {
                           const SizedBox(
                             height: 10,
                           ),
+                          if (state.copyWith().isLogingIn)
+                            const Center(
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.red,
+                                color: Colors.yellow,
+                              ),
+                            ),
                           if (isLoading)
                             const Center(
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.white,
+                                color: Colors.green,
+                              ),
                             ),
                           if (error != null)
                             Padding(
@@ -192,7 +198,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           try {
                             setState(() {
                               isLoading = true;
-                              error = null;
                             });
 
                             context.read<UserCubit>().register(

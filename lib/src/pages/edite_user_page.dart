@@ -27,7 +27,6 @@ class _EditeUserPageState extends State<EditeUserPage> {
   late TextEditingController _subnameController;
   late TextEditingController _emailController;
   late TextEditingController _telController;
-  late UserService _userService;
   XFile? currentImage;
 
   bool isLoading = false;
@@ -42,7 +41,6 @@ class _EditeUserPageState extends State<EditeUserPage> {
         TextEditingController(text: widget.data['subname'] ?? '');
     _emailController = TextEditingController(text: widget.data['email'] ?? '');
     _telController = TextEditingController(text: widget.data['tel'] ?? '');
-    _userService = UserService();
     super.initState();
   }
 
@@ -56,7 +54,7 @@ class _EditeUserPageState extends State<EditeUserPage> {
   }
 
   Future<Map<String, dynamic>> getData() async {
-    Map<String, dynamic> data = Map();
+    Map<String, dynamic> data = {};
     if (currentImage != null) {
       File file = File(currentImage!.path);
 

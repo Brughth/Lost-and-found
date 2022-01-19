@@ -18,17 +18,17 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  late TextEditingController _MessageController;
+  late TextEditingController _messageController;
   late ScrollController _scrollController;
   late MessageService _messageService;
 
   int nbElement = 20;
-  int pagination_increment = 20;
+  int paginationincrement = 20;
   bool isLaoding = false;
 
   @override
   void initState() {
-    _MessageController = TextEditingController();
+    _messageController = TextEditingController();
     _scrollController = ScrollController();
     _messageService = MessageService();
     _scrollController.addListener(scrollListernner);
@@ -40,15 +40,15 @@ class _ChatPageState extends State<ChatPage> {
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
       setState(() {
-        nbElement += pagination_increment;
+        nbElement += paginationincrement;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double screemHeight = MediaQuery.of(context).size.height;
-    double screemWidth = MediaQuery.of(context).size.width;
+    // double screemHeight = MediaQuery.of(context).size.height;
+    // double screemWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primary,
@@ -138,7 +138,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
       child: TextField(
         autofocus: false,
-        controller: _MessageController,
+        controller: _messageController,
         style: const TextStyle(
           color: AppColors.primaryGrayText,
           fontSize: 20,
@@ -148,15 +148,15 @@ class _ChatPageState extends State<ChatPage> {
           border: InputBorder.none,
           suffixIcon: IconButton(
             onPressed: () {
-              if (_MessageController.text.isNotEmpty ||
-                  _MessageController.text != "") {
+              if (_messageController.text.isNotEmpty ||
+                  _messageController.text != "") {
                 _messageService.onSendMessage(
                   chatParams: widget.chatParams,
                   message: Message(
                     idFrom: widget.chatParams.userId,
                     idTo: widget.chatParams.peerId,
                     timestamp: DateTime.now().microsecondsSinceEpoch.toString(),
-                    content: _MessageController.text,
+                    content: _messageController.text,
                   ),
                 );
 
@@ -166,7 +166,7 @@ class _ChatPageState extends State<ChatPage> {
                   curve: Curves.easeInOut,
                 );
 
-                _MessageController.clear();
+                _messageController.clear();
               } else {
                 Fluttertoast.showToast(
                   msg: "Nothing to send...",

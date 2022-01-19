@@ -35,7 +35,7 @@ class AppInput extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 7.0),
             child: Text(
-              "$label",
+              label,
               style: const TextStyle(
                 fontWeight: FontWeight.w400,
                 color: AppColors.primaryGrayText,
@@ -44,7 +44,7 @@ class AppInput extends StatelessWidget {
           ),
           TextFormField(
             controller: controller,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w400,
               color: AppColors.primaryText,
             ),
@@ -53,15 +53,15 @@ class AppInput extends StatelessWidget {
             maxLines: maxLines,
             decoration: InputDecoration(
               filled: true,
-              contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               hintText: placeholder,
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 fontWeight: FontWeight.w300,
                 color: AppColors.grayScale,
               ),
-              fillColor: Color.fromRGBO(249, 249, 249, 0.5),
+              fillColor: const Color.fromRGBO(249, 249, 249, 0.5),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.primary),
+                borderSide: const BorderSide(color: AppColors.primary),
                 borderRadius: BorderRadius.circular(6),
               ),
               enabledBorder: OutlineInputBorder(

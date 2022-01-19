@@ -36,6 +36,7 @@ class ObjetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeigth = MediaQuery.of(context).size.height;
     double screenWidght = MediaQuery.of(context).size.width;
+    String uid = FirebaseAuth.instance.currentUser!.uid;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
@@ -53,8 +54,12 @@ class ObjetWidget extends StatelessWidget {
               children: [
                 (userImage == null || userImage!.isEmpty)
                     ? const CircleAvatar(
-                        backgroundColor: Colors.blue,
-                        radius: 25,
+                        backgroundColor: AppColors.primary,
+                        radius: 26,
+                        child: CircleAvatar(
+                          radius: 25,
+                          backgroundColor: AppColors.secondary,
+                        ),
                       )
                     : CircleAvatar(
                         backgroundColor: AppColors.primary,
@@ -190,7 +195,6 @@ class ObjetWidget extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    String uid = FirebaseAuth.instance.currentUser!.uid;
                     ChatParams chatParams = ChatParams(
                       userId: uid,
                       peerId: userId,
