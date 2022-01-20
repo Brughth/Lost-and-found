@@ -1,11 +1,17 @@
+import 'dart:developer';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lost_and_found/home_page.dart';
 import 'package:lost_and_found/src/authentification/cubit/user_cubit.dart';
-import 'package:lost_and_found/src/widget/app_button.dart';
-import 'package:lost_and_found/src/widget/app_imput.dart';
+import 'package:lost_and_found/src/authentification/pages/sign_up_page.dart';
+import 'package:lost_and_found/src/utils/app_colors.dart';
+import 'package:lost_and_found/src/utils/app_exception.dart';
+import 'package:lost_and_found/src/utils/app_input.dart';
+import 'package:lost_and_found/src/utils/app_button.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -36,15 +42,19 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screemWidth = MediaQuery.of(context).size.width;
+    double screemHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          elevation: 0.5,
-          backgroundColor: const Color(0xFF212121),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Color(0xFF909093)),
-            onPressed: () => Navigator.of(context).pop(),
+          elevation: 0,
+          backgroundColor: AppColors.primary,
+          title: const Text(
+            "Login",
+            style: TextStyle(
+              fontSize: 22,
+            ),
           ),
+          centerTitle: true,
         ),
         body: BlocConsumer<UserCubit, UserState>(
           listener: (context, state) {
@@ -56,20 +66,12 @@ class _SignInPageState extends State<SignInPage> {
             }
           },
           builder: (contex, state) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(
-                color: Color(0xFF212121),
-              ),
+            return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 30,
-                  ),
                   SizedBox(
-                    height: 100,
+                    height: screemHeight * .2,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,112 +105,99 @@ class _SignInPageState extends State<SignInPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  SizedBox(
-                    width: 330,
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screemWidth * 0.05),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        AppImput(
+                        AppInput(
                           controller: _emailController,
-                          hintText: "Email",
-                          obscureText: false,
+                          label: "Email",
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        AppImput(
+                        AppInput(
                           controller: _passwordController,
-                          hintText: "Mot De Passe",
+                          maxLines: 1,
+                          label: "Password",
                           obscureText: true,
-                        ),
-                        const SizedBox(
-                          height: 10,
                         ),
                         if (isLoading)
                           const Center(
                             child: CircularProgressIndicator(),
                           ),
-                        if (error != null)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              error!,
-                              style: const TextStyle(
-                                color: Colors.red,
-                              ),
+                        if (state.copyWith().error != null)
+                          Text(
+                            appAuthException(
+                                codeerror: "${state.copyWith().error}"),
+                            style: const TextStyle(
+                              fontSize: 16,
                             ),
+                            textAlign: TextAlign.center,
                           ),
+                        SizedBox(
+                          height: screemHeight * .02,
+                        ),
+                        AppButton(
+                          text: "Login",
+                          onTap: () async {
+                            if (_emailController.text.isEmpty ||
+                                _passwordController.text.isEmpty) {
+                              Fluttertoast.showToast(
+                                  msg: "tous les chanps sont requies");
+                            } else {
+                              try {
+                                setState(() {
+                                  isLoading = true;
+                                  error = null;
+                                });
+
+                                await contex.read<UserCubit>().attemptLogin(
+                                      email: _emailController.text.trim(),
+                                      password: _passwordController.text.trim(),
+                                    );
+
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              } catch (e) {
+                                print(e);
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 60,
-                  ),
-                  AppButton(
-                    text: "Se Connecter",
-                    firstColor: const Color(0xFFff7521),
-                    secondColor: const Color(0xFFffb421),
-                    onTap: () async {
-                      if (_emailController.text.isEmpty ||
-                          _passwordController.text.isEmpty) {
-                        Fluttertoast.showToast(
-                            msg: "tous les chanps sont requies");
-                      } else {
-                        try {
-                          setState(() {
-                            isLoading = true;
-                            error = null;
-                          });
-
-                          await contex.read<UserCubit>().attemptLogin(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text.trim(),
+                  RichText(
+                    textAlign: TextAlign.end,
+                    text: TextSpan(
+                      text: "Don't have an account ? ",
+                      style: const TextStyle(
+                        color: AppColors.primaryText,
+                        fontSize: 17,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "Register",
+                          style: const TextStyle(
+                            color: AppColors.secondary,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const SignUpPage(),
+                                ),
                               );
-
-                          setState(() {
-                            isLoading = false;
-                          });
-
-                          // var user =
-                          //     await _authServices.loginWithEmailAndPassword(
-                          //   email: _emailController.text,
-                          //   password: _passwordController.text,
-                          // );
-
-                          // setState(() {
-                          //   isLoading = false;
-                          // });
-
-                          // Navigator.of(context).pushAndRemoveUntil(
-                          //     MaterialPageRoute(
-                          //         builder: (context) => const HomePage()),
-                          //     (route) => false);
-                          // } on FirebaseAuthException catch (e) {
-                          //   if (e.code == 'weak-password') {
-                          //     print('The password provided is too weak.');
-                          //   } else if (e.code == 'email-already-in-use') {
-                          //     print('The account already exists for that email.');
-                          //   }
-
-                          //   setState(() {
-                          //     isLoading = false;
-                          //     error = e.message;
-                          //   });
-                        } catch (e) {
-                          print(e);
-                          setState(() {
-                            isLoading = false;
-                          });
-                        }
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                            },
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
             );

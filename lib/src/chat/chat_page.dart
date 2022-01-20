@@ -137,12 +137,14 @@ class _ChatPageState extends State<ChatPage> {
         color: Color.fromRGBO(244, 243, 243, 1),
       ),
       child: TextField(
+        minLines: 1,
+        maxLines: 3,
         autofocus: false,
         controller: _messageController,
         style: const TextStyle(
           color: AppColors.primaryGrayText,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
         ),
         decoration: InputDecoration(
           border: InputBorder.none,

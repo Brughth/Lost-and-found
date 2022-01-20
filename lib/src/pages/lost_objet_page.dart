@@ -32,8 +32,8 @@ class _LostObjePageState extends State<LostObjePage>
     setState(() {
       isLoading = true;
     });
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
+    // ? && !scrollController.position.outOfRange
+    if (scrollController.offset >= scrollController.position.maxScrollExtent) {
       setState(() {
         limit = limit + incrementLimit;
       });
@@ -123,7 +123,9 @@ class _LostObjePageState extends State<LostObjePage>
             ),
           ),
           isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
               : Container(),
         ],
       ),

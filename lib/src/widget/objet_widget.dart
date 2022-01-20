@@ -78,18 +78,20 @@ class ObjetWidget extends StatelessWidget {
                       children: [
                         RichText(
                           text: TextSpan(
-                            text: "$username ",
+                            text: "$username ".toUpperCase(),
                             style: const TextStyle(
                               color: AppColors.primaryText,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w500,
                               fontSize: 17,
                             ),
                             children: [
                               TextSpan(
-                                text: usersubname ?? " ",
+                                text: usersubname != null
+                                    ? "$usersubname".toUpperCase()
+                                    : "",
                                 style: const TextStyle(
                                   color: AppColors.primaryText,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w500,
                                   fontSize: 17,
                                 ),
                               ),
@@ -104,11 +106,11 @@ class ObjetWidget extends StatelessWidget {
                               SizedBox(
                                 width: screenWidght * .5,
                                 child: Text(
-                                  title,
+                                  title.toUpperCase(),
                                   style: const TextStyle(
                                     color: AppColors.primaryText,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),

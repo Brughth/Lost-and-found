@@ -1,13 +1,15 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lost_and_found/home_page.dart';
 import 'package:lost_and_found/src/authentification/cubit/user_cubit.dart';
+import 'package:lost_and_found/src/authentification/pages/sign_in_page.dart';
 import 'package:lost_and_found/src/utils/app_button.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
+import 'package:lost_and_found/src/utils/app_exception.dart';
 import 'package:lost_and_found/src/utils/app_input.dart';
-import 'package:lost_and_found/src/widget/app_imput.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -45,184 +47,178 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screemWidth = MediaQuery.of(context).size.width;
+    double screemHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          elevation: 0.5,
-          backgroundColor: const Color(0xFF212121),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Color(0xFF909093)),
-            onPressed: () => Navigator.of(context).pop(),
+          elevation: 0,
+          backgroundColor: AppColors.primary,
+          title: const Text(
+            "Register",
+            style: TextStyle(
+              fontSize: 22,
+            ),
           ),
+          centerTitle: true,
         ),
-        body: SingleChildScrollView(
-          child: BlocConsumer<UserCubit, UserState>(
-            listener: (context, state) {
-              if (state.successLogingIn) {
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
-                  ),
-                  (route) => false,
-                );
-              }
-            },
-            builder: (context, state) {
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF212121),
+        body: BlocConsumer<UserCubit, UserState>(
+          listener: (context, state) {
+            if (state.successLogingIn) {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    SizedBox(
-                      height: 100,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          DefaultTextStyle(
-                            style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF909093),
-                            ),
-                            child: AnimatedTextKit(
-                              repeatForever: true,
-                              isRepeatingAnimation: true,
-                              animatedTexts: [
-                                FadeAnimatedText(
-                                  'Soyons Humble',
-                                  duration: const Duration(milliseconds: 5000),
-                                  fadeOutBegin: 1,
-                                ),
-                                FadeAnimatedText(
-                                  'Inscrire toi pour trouver \nun objet perdu.',
-                                  duration: const Duration(milliseconds: 10000),
-                                ),
-                                FadeAnimatedText(
-                                  'Inscrire toi pour trouver\nle propriétaire d\'un\nobjet ramassé.',
-                                  duration: const Duration(milliseconds: 10000),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    SizedBox(
-                      width: 330,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          AppInput(
-                            controller: _nameController,
-                            label: "Name",
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          AppImput(
-                            controller: _emailController,
-                            hintText: "Email",
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          AppImput(
-                            controller: _telController,
-                            hintText: "Telephone",
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          AppImput(
-                            controller: _passwordController,
-                            hintText: "Mot De Passe",
-                            obscureText: true,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          if (state.copyWith().isLogingIn)
-                            const Center(
-                              child: CircularProgressIndicator(
-                                backgroundColor: Colors.red,
-                                color: Colors.yellow,
-                              ),
-                            ),
-                          if (isLoading)
-                            const Center(
-                              child: CircularProgressIndicator(
-                                backgroundColor: Colors.white,
-                                color: Colors.green,
-                              ),
-                            ),
-                          if (error != null)
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                error!,
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                ),
-                              ),
-                            )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    AppButton(
-                      text: "S'inscrire",
-                      onTap: () async {
-                        if (_nameController.text.isEmpty ||
-                            _passwordController.text.isEmpty ||
-                            _emailController.text.isEmpty ||
-                            _telController.text.isEmpty) {
-                          Fluttertoast.showToast(
-                            msg: "tous les champs sont requis",
-                            backgroundColor: AppColors.primary,
-                            textColor: Colors.white,
-                          );
-                        } else {
-                          try {
-                            setState(() {
-                              isLoading = true;
-                            });
-
-                            context.read<UserCubit>().register(
-                                  email: _emailController.text.trim(),
-                                  name: _nameController.text.trim(),
-                                  tel: _telController.text.trim(),
-                                  password: _passwordController.text.trim(),
-                                );
-                            setState(() {
-                              isLoading = false;
-                            });
-                          } catch (e) {
-                            print(e);
-                            setState(() {
-                              isLoading = false;
-                            });
-                          }
-                        }
-                      },
-                    ),
-                  ],
-                ),
+                (route) => false,
               );
-            },
-          ),
+            }
+          },
+          builder: (context, state) {
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: screemHeight * .2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        DefaultTextStyle(
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF909093),
+                          ),
+                          child: AnimatedTextKit(
+                            repeatForever: true,
+                            isRepeatingAnimation: true,
+                            animatedTexts: [
+                              FadeAnimatedText(
+                                'Soyons Humble',
+                                duration: const Duration(milliseconds: 5000),
+                                fadeOutBegin: 1,
+                              ),
+                              FadeAnimatedText(
+                                'Inscrire toi pour trouver \nun objet perdu.',
+                                duration: const Duration(milliseconds: 10000),
+                              ),
+                              FadeAnimatedText(
+                                'Inscrire toi pour trouver\nle propriétaire d\'un\nobjet ramassé.',
+                                duration: const Duration(milliseconds: 10000),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screemWidth * 0.05),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        AppInput(
+                          controller: _nameController,
+                          label: "Name",
+                        ),
+                        AppInput(
+                          controller: _emailController,
+                          label: "Email",
+                        ),
+                        AppInput(
+                          controller: _telController,
+                          label: "Telephone",
+                        ),
+                        AppInput(
+                          controller: _passwordController,
+                          label: "Mot De Passe",
+                          maxLines: 1,
+                          obscureText: true,
+                        ),
+                        if (state.copyWith().isLogingIn)
+                          const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        if (state.copyWith().error != null)
+                          Text(
+                            appAuthException(
+                                codeerror: "${state.copyWith().error}"),
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        AppButton(
+                          text: "S'inscrire",
+                          onTap: () async {
+                            if (_nameController.text.isEmpty ||
+                                _passwordController.text.isEmpty ||
+                                _emailController.text.isEmpty ||
+                                _telController.text.isEmpty) {
+                              Fluttertoast.showToast(
+                                msg: "tous les champs sont requis",
+                                backgroundColor: AppColors.primary,
+                                textColor: Colors.white,
+                              );
+                            } else {
+                              try {
+                                setState(() {
+                                  isLoading = true;
+                                });
+
+                                context.read<UserCubit>().register(
+                                      email: _emailController.text.trim(),
+                                      name: _nameController.text.trim(),
+                                      tel: _telController.text.trim(),
+                                      password: _passwordController.text.trim(),
+                                    );
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              } catch (e) {
+                                print(e);
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    textAlign: TextAlign.end,
+                    text: TextSpan(
+                      text: "Already have an account ? ",
+                      style: const TextStyle(
+                        color: AppColors.primaryText,
+                        fontSize: 17,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "Login",
+                          style: const TextStyle(
+                            color: AppColors.secondary,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => const SignInPage()),
+                                  (route) => false);
+                            },
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
         ));
   }
 }
@@ -246,160 +242,3 @@ class _SignUpPageState extends State<SignUpPage> {
 //     }
 //     setState(() => isLoading = false);
 //   }
-
-
-
-// SingleChildScrollView(
-//         child: Container(
-//           width: MediaQuery.of(context).size.width,
-//           height: MediaQuery.of(context).size.height,
-//           decoration: const BoxDecoration(
-//             color: Color(0xFF212121),
-//           ),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//             children: [
-//               const SizedBox(
-//                 height: 30,
-//               ),
-//               SizedBox(
-//                 height: 100,
-//                 child: Column(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   crossAxisAlignment: CrossAxisAlignment.center,
-//                   children: [
-//                     DefaultTextStyle(
-//                       style: const TextStyle(
-//                         fontSize: 25,
-//                         fontWeight: FontWeight.bold,
-//                         color: Color(0xFF909093),
-//                       ),
-//                       child: AnimatedTextKit(
-//                         repeatForever: true,
-//                         isRepeatingAnimation: true,
-//                         animatedTexts: [
-//                           FadeAnimatedText(
-//                             'Soyons Humble',
-//                             duration: const Duration(milliseconds: 5000),
-//                             fadeOutBegin: 1,
-//                           ),
-//                           FadeAnimatedText(
-//                             'Inscrire toi pour trouver \nun objet perdu.',
-//                             duration: const Duration(milliseconds: 10000),
-//                           ),
-//                           FadeAnimatedText(
-//                             'Inscrire toi pour trouver\nle propriétaire d\'un\nobjet ramassé.',
-//                             duration: const Duration(milliseconds: 10000),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//               const SizedBox(
-//                 height: 30,
-//               ),
-//               SizedBox(
-//                 width: 330,
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.end,
-//                   children: [
-//                     AppInput(
-//                       controller: _nameController,
-//                       label: "Name",
-//                     ),
-//                     const SizedBox(
-//                       height: 10,
-//                     ),
-//                     AppImput(
-//                       controller: _emailController,
-//                       hintText: "Email",
-//                     ),
-//                     const SizedBox(
-//                       height: 10,
-//                     ),
-//                     AppImput(
-//                       controller: _telController,
-//                       hintText: "Telephone",
-//                     ),
-//                     const SizedBox(
-//                       height: 10,
-//                     ),
-//                     AppImput(
-//                       controller: _passwordController,
-//                       hintText: "Mot De Passe",
-//                       obscureText: true,
-//                     ),
-//                     const SizedBox(
-//                       height: 10,
-//                     ),
-//                     if (isLoading)
-//                       const Center(
-//                         child: CircularProgressIndicator(),
-//                       ),
-//                     if (error != null)
-//                       Padding(
-//                         padding: const EdgeInsets.all(8.0),
-//                         child: Text(
-//                           error!,
-//                           style: const TextStyle(
-//                             color: Colors.red,
-//                           ),
-//                         ),
-//                       )
-//                   ],
-//                 ),
-//               ),
-//               const SizedBox(
-//                 height: 40,
-//               ),
-//               AppButton(
-//                 text: "S'inscrire",
-//                 onTap: () async {
-//                   try {
-//                     setState(() {
-//                       isLoading = true;
-//                       error = null;
-//                     });
-
-//                     var user = await _authServices.registedWithEmailAndPassword(
-//                       name: _nameController.text,
-//                       email: _emailController.text,
-//                       tel: _telController.text,
-//                       password: _passwordController.text,
-//                     );
-
-//                     setState(() {
-//                       isLoading = false;
-//                     });
-
-//                     Navigator.of(context).pushAndRemoveUntil(
-//                         MaterialPageRoute(
-//                             builder: (context) => const HomePage()),
-//                         (route) => false);
-//                   } on FirebaseAuthException catch (e) {
-//                     if (e.code == 'weak-password') {
-//                       print('The password provided is too weak.');
-//                     } else if (e.code == 'email-already-in-use') {
-//                       print('The account already exists for that email.');
-//                     }
-
-//                     setState(() {
-//                       isLoading = false;
-//                       error = e.message;
-//                     });
-//                   } catch (e) {
-//                     print(e);
-//                     setState(() {
-//                       isLoading = false;
-//                       e.toString();
-//                     });
-//                   }
-//                 },
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-    

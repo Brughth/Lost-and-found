@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_and_found/src/authentification/auth_service.dart';
+import 'package:lost_and_found/src/authentification/pages/sign_in_page.dart';
 import 'package:lost_and_found/src/pages/edite_user_page.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
-import 'package:lost_and_found/welcome.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -60,7 +60,7 @@ class _UserProfilePageState extends State<UserProfilePage>
             onPressed: () async {
               _authServices.logout();
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const Welcome()),
+                  MaterialPageRoute(builder: (context) => const SignInPage()),
                   (route) => false);
             },
             icon: const Icon(
