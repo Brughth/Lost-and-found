@@ -170,6 +170,9 @@ class _SignInPageState extends State<SignInPage> {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: screemHeight * .01,
+                  ),
                   RichText(
                     textAlign: TextAlign.end,
                     text: TextSpan(

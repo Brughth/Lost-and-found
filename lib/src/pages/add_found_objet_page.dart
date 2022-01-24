@@ -22,7 +22,7 @@ class _AddFoundObjetPageState extends State<AddFoundObjetPage> {
   late TextEditingController _titleController;
   late TextEditingController _descController;
   late Stream<QuerySnapshot<Map<String, dynamic>>> categoriesStream;
-  Map<String, dynamic>? selectedCategory = {};
+  String? selectedCategory;
   late User? user;
 
   XFile? image;
@@ -36,8 +36,7 @@ class _AddFoundObjetPageState extends State<AddFoundObjetPage> {
     data['title'] = _titleController.text;
     data['description'] = _descController.text;
     data['user_id'] = FirebaseAuth.instance.currentUser!.uid;
-    data['category_id'] = selectedCategory!['id'];
-    data['category'] = selectedCategory!;
+    data['category_id'] = selectedCategory;
     return data;
   }
 
@@ -114,22 +113,12 @@ class _AddFoundObjetPageState extends State<AddFoundObjetPage> {
 
                         return DropdownButtonFormField<String>(
                           onChanged: (value) {
-                            selectedCategory ??= {};
-                            selectedCategory!['id'] = value;
-                            print(value);
+                            selectedCategory = value;
                             setState(() {});
                           },
                           hint: const Text("selected category"),
-                          validator: (value) {
-                            if (value == null) {
-                              return "Please Select a category";
-                            }
-                            return null;
-                          },
-                          value: selectedCategory!['id'],
-                          items: cats.map((d) {
-                            var cat = d.data()! as Map<String, dynamic>;
-                            cat['id'] = d.id;
+                          value: selectedCategory,
+                          items: cats.map((cat) {
                             return DropdownMenuItem<String>(
                               child: Text("${cat['title']}"),
                               value: cat['id'],

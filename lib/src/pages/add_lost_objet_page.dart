@@ -22,7 +22,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
   late TextEditingController _titleController;
   late TextEditingController _descController;
   late Stream<QuerySnapshot<Map<String, dynamic>>> categoriesStream;
-  Map<String, dynamic>? selectedCategory = {};
+  String? selectedCategory;
   late User? user;
 
   XFile? image;
@@ -36,8 +36,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
     data['title'] = _titleController.text;
     data['description'] = _descController.text;
     data['user_id'] = user!.uid;
-    data['category_id'] = selectedCategory!['id'];
-    data['category'] = selectedCategory!;
+    data['category_id'] = selectedCategory!;
     return data;
   }
 
@@ -62,12 +61,6 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_sharp),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
       ),
       body: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
@@ -118,22 +111,13 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
 
                         return DropdownButtonFormField<String>(
                           onChanged: (value) {
-                            selectedCategory ??= {};
-                            selectedCategory!['id'] = value;
-                            print(value);
+                            selectedCategory = value;
                             setState(() {});
                           },
                           hint: const Text("selected category"),
-                          validator: (value) {
-                            if (value == null) {
-                              return "Please Select a category";
-                            }
-                            return null;
-                          },
-                          value: selectedCategory!['id'],
-                          items: cats.map((d) {
-                            var cat = d.data()! as Map<String, dynamic>;
-                            cat['id'] = d.id;
+                          value: selectedCategory,
+                          items: cats.map((e) {
+                            var cat = e.data() as Map<String, dynamic>;
                             return DropdownMenuItem<String>(
                               child: Text("${cat['title']}"),
                               value: cat['id'],

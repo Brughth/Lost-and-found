@@ -188,6 +188,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: screemHeight * .01,
+                  ),
                   RichText(
                     textAlign: TextAlign.end,
                     text: TextSpan(

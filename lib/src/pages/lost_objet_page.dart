@@ -14,7 +14,7 @@ class LostObjePage extends StatefulWidget {
 class _LostObjePageState extends State<LostObjePage>
     with AutomaticKeepAliveClientMixin {
   late List<QueryDocumentSnapshot> data;
-  int limit = 4;
+  int limit = 5;
   bool hasMore = false;
   bool isLoading = false;
   final int incrementLimit = 4;

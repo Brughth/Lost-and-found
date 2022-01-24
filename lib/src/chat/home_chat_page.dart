@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:lost_and_found/src/chat/chat_page.dart';
-import 'package:lost_and_found/src/chat/chat_parans.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
 import 'package:lost_and_found/src/widget/conversation_item.dart';
 
@@ -14,7 +11,8 @@ class HomeChtaPage extends StatefulWidget {
   _HomeChtaPageState createState() => _HomeChtaPageState();
 }
 
-class _HomeChtaPageState extends State<HomeChtaPage> {
+class _HomeChtaPageState extends State<HomeChtaPage>
+    with AutomaticKeepAliveClientMixin {
   late User currentUser;
   @override
   void initState() {
@@ -108,4 +106,7 @@ class _HomeChtaPageState extends State<HomeChtaPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

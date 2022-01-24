@@ -3,7 +3,7 @@ import 'package:lost_and_found/src/chat/home_chat_page.dart';
 import 'package:lost_and_found/src/chat/notification_service.dart';
 import 'package:lost_and_found/src/pages/found_objet_page.dart';
 import 'package:lost_and_found/src/pages/lost_objet_page.dart';
-import 'package:lost_and_found/src/pages/test_page.dart';
+import 'package:lost_and_found/src/pages/search_page.dart';
 import 'package:lost_and_found/src/pages/user_page.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
 
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             splashColor: const Color(0xFFffb421),
             onPressed: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const TestPage()));
+                  MaterialPageRoute(builder: (context) => const SearchPage()));
             },
             icon: Icon(
               Icons.search,

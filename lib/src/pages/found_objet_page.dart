@@ -95,44 +95,19 @@ class _FoundObjetPageState extends State<FoundObjetPage>
                         );
                       },
                       itemBuilder: (context, index) {
-                        var objet = data[index];
-                        var userStream = FirebaseFirestore.instance
-                            .collection("users")
-                            .doc("${objet['user_id']}")
-                            .snapshots();
-                        return StreamBuilder<DocumentSnapshot>(
-                            stream: userStream,
-                            builder: (BuildContext context,
-                                AsyncSnapshot<DocumentSnapshot> snapshot) {
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                              if (snapshot.hasError) {
-                                return Center(
-                                  child: Text(
-                                    "${snapshot.error}",
-                                    style: const TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                );
-                              }
+                        var object = data[index];
 
-                              var user =
-                                  snapshot.data!.data() as Map<String, dynamic>;
-                              return ObjetWidget(
-                                title: "${objet['title']}",
-                                description: "${objet['description']}",
-                                image: "${objet['image']}",
-                                createAd: "${objet['createdAt']}",
-                                userImage: "${user['photo_url']}",
-                                usersubname: "${user['subname']}",
-                                userId: "${objet['user_id']}",
-                                username: "${user['name']}",
-                                isLost: false,
-                              );
-                            });
+                        return ObjetWidget(
+                          title: object['title'],
+                          description: object['description'],
+                          image: object['image'],
+                          userId: object['user_id'],
+                          userImage: object['user_photo'],
+                          username: object['user_name'],
+                          createAd: object['createdAt'],
+                          usersubname: object['user_subname'],
+                          isLost: false,
+                        );
                       },
                     );
                   }
