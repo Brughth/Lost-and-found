@@ -109,8 +109,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                         backgroundColor: AppColors.primary,
                         child: CircleAvatar(
                           radius: 98,
-                          backgroundImage:
-                              NetworkImage("${data!['photo_url'] ?? ''}"),
+                          backgroundImage: data!['photo_url'] == null
+                              ? null
+                              : NetworkImage(data!['photo_url']),
                         ),
                       ),
                       SizedBox(

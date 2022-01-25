@@ -64,7 +64,13 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
       ),
       body: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
-          print("useremail: ${state.user!.email}");
+          //context.read<UserCubit>().getAuthenticatedUser(user!.uid);
+          print(state.copyWith().user);
+          if (state is UserInitial) {
+            context.read<UserCubit>().getAuthenticatedUser(user!.uid);
+            return const Center(child: CircularProgressIndicator());
+          }
+
           return Form(
             autovalidateMode: AutovalidateMode.disabled,
             child: Padding(

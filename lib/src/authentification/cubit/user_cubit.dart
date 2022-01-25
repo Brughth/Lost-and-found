@@ -51,6 +51,8 @@ class UserCubit extends Cubit<UserState> {
             successLogingIn: true,
             error: null),
       );
+
+      getAuthenticatedUser(user.user!.uid);
     } on FirebaseAuthException catch (error) {
       print(error.code);
       emit(
@@ -90,7 +92,7 @@ class UserCubit extends Cubit<UserState> {
         ),
       );
 
-      await authServices.registedWithEmailAndPassword(
+      var u = await authServices.registedWithEmailAndPassword(
         name: name,
         email: email,
         tel: tel,
@@ -101,6 +103,8 @@ class UserCubit extends Cubit<UserState> {
         email: email,
         password: password,
       );
+
+      getAuthenticatedUser(u.user!.uid);
     } on FirebaseAuthException catch (error) {
       print(error.code);
       emit(state.copyWith(

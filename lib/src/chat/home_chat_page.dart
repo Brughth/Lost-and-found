@@ -57,49 +57,63 @@ class _HomeChtaPageState extends State<HomeChtaPage>
           }
 
           if (snapshop.hasData) {
-            var data = snapshop.data!.docs;
-            return ListView.builder(
-              itemCount: snapshop.data!.size,
-              itemBuilder: (context, index) {
-                var uid = data[index];
+            if (snapshop.data!.size == 0) {
+              return const Center(
+                child: Text(
+                  "any chat yet",
+                  style: TextStyle(
+                    color: AppColors.primaryText,
+                    fontSize: 16,
+                  ),
+                ),
+              );
+            } else {
+              var data = snapshop.data!.docs;
+              return ListView.builder(
+                itemCount: snapshop.data!.size,
+                itemBuilder: (context, index) {
+                  var uid = data[index];
 
-                return StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(uid['freindId'])
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
-                          snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
+                  return StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(uid['freindId'])
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
+                            snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-                    if (snapshot.hasError) {
-                      print(snapshot.error);
-                      return Center(
-                        child: Text("${snapshop.error}"),
-                      );
-                    }
+                      if (snapshot.hasError) {
+                        print(snapshot.error);
+                        return Center(
+                          child: Text("${snapshop.error}"),
+                        );
+                      }
 
-                    if (snapshot.hasData) {
-                      var user = snapshot.data!.data() as Map<String, dynamic>;
+                      if (snapshot.hasData) {
+                        var user =
+                            snapshot.data!.data() as Map<String, dynamic>;
 
-                      return ConversationItem(
-                        userId: currentUser.uid,
-                        peedId: uid['freindId'],
-                        userName: user['name'],
-                        userPhoto: user['photo_url'],
-                        userSubName: user['subname'],
-                        userTel: user['tel'],
-                        updateAt: uid['updateAt'],
-                      );
-                    }
-                    return Container();
-                  },
-                );
-              },
-            );
+                        return ConversationItem(
+                          userId: currentUser.uid,
+                          peedId: uid['freindId'],
+                          userName: user['name'],
+                          userPhoto: user['photo_url'],
+                          userSubName: user['subname'],
+                          userTel: user['tel'],
+                          updateAt: uid['updateAt'],
+                        );
+                      }
+
+                      return Container();
+                    },
+                  );
+                },
+              );
+            }
           }
           return Container();
         },

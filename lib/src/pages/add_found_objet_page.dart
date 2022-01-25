@@ -67,6 +67,11 @@ class _AddFoundObjetPageState extends State<AddFoundObjetPage> {
       body: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {},
         builder: (context, state) {
+          if (state is UserInitial) {
+            context.read<UserCubit>().getAuthenticatedUser(user!.uid);
+            return const Center(child: CircularProgressIndicator());
+          }
+
           return Form(
             child: Padding(
               padding:

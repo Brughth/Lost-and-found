@@ -84,7 +84,7 @@ class _LostObjePageState extends State<LostObjePage>
                           "No lost objet yet",
                           style: TextStyle(
                             color: AppColors.primaryText,
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                       ),

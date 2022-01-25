@@ -80,7 +80,13 @@ class _FoundObjetPageState extends State<FoundObjetPage>
                     return const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Center(
-                        child: Text("No lost objet yet"),
+                        child: Text(
+                          "No lost objet yet",
+                          style: TextStyle(
+                            color: AppColors.primaryText,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     );
                   } else {

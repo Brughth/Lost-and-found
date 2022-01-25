@@ -24,6 +24,9 @@ String appAuthException({required String codeerror}) {
     case "wrong-password":
       return "Le mot de passe fournie est incorect.";
 
+    case "network-request-failed":
+      return "Verifier votre connexion internet.";
+
     default:
       return "An undefined Error happened.";
   }

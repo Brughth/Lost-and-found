@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           style: TextStyle(
             color: AppColors.primaryGrayText,
             fontWeight: FontWeight.bold,
-            fontSize: 23,
+            fontSize: 20,
           ),
         ),
         centerTitle: true,

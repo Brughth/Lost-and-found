@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lost_and_found/src/authentification/cubit/user_cubit.dart';
 import 'package:lost_and_found/src/services/user_services.dart';
 import 'package:lost_and_found/src/utils/app_button.dart';
 import 'package:lost_and_found/src/utils/app_colors.dart';
@@ -102,132 +104,138 @@ class _EditeUserPageState extends State<EditeUserPage> {
       ),
       body: ListView(
         children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: screenHiegrh * .025,
-                ),
-                Stack(
-                  children: [
-                    SizedBox(
-                      width: screenWidgth,
-                      child: CircleAvatar(
-                        radius: 100,
-                        backgroundColor: AppColors.primary,
-                        child: currentImage != null
-                            ? CircleAvatar(
-                                radius: 98,
-                                backgroundImage: FileImage(
-                                  File(currentImage!.path),
-                                ),
-                              )
-                            : CircleAvatar(
-                                radius: 98,
-                                backgroundImage: NetworkImage(
-                                    widget.data['photo_url'] ?? ''),
+          Column(
+            children: [
+              SizedBox(
+                height: screenHiegrh * .025,
+              ),
+              Stack(
+                children: [
+                  SizedBox(
+                    width: screenWidgth,
+                    child: CircleAvatar(
+                      radius: 100,
+                      backgroundColor: AppColors.primary,
+                      child: currentImage != null
+                          ? CircleAvatar(
+                              radius: 98,
+                              backgroundImage: FileImage(
+                                File(currentImage!.path),
                               ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: screenHiegrh * .045,
-                      right: screenWidgth * .225,
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.primary,
-                        child: GestureDetector(
-                          onTap: () async {
-                            final ImagePicker _picker = ImagePicker();
-                            final XFile? image = await _picker.pickImage(
-                                source: ImageSource.gallery);
-                            if (image != null) {
-                              setState(() {
-                                currentImage = image;
-                              });
-                            }
-                          },
-                          child: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  width: screenWidgth * .9,
-                  child: Column(
-                    children: [
-                      AppInput(
-                        controller: _emailController,
-                        label: "Email",
-                        readOnly: true,
-                      ),
-                      SizedBox(
-                        height: screenHiegrh * .002,
-                      ),
-                      AppInput(
-                        controller: _nameController,
-                        label: "Name",
-                      ),
-                      SizedBox(
-                        height: screenHiegrh * .002,
-                      ),
-                      AppInput(
-                        controller: _subnameController,
-                        label: "Subname",
-                      ),
-                      SizedBox(
-                        height: screenHiegrh * .002,
-                      ),
-                      AppInput(
-                        controller: _telController,
-                        label: "Phone",
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      if (isLoading)
-                        const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      if (error != null)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            error!,
-                            style: const TextStyle(
-                              color: Colors.red,
+                            )
+                          : CircleAvatar(
+                              radius: 98,
+                              backgroundImage: widget.data['photo_url'] == null
+                                  ? null
+                                  : NetworkImage(widget.data['photo_url']),
                             ),
-                          ),
-                        ),
-                      AppButton(
-                        text: "Save change",
+                    ),
+                  ),
+                  Positioned(
+                    bottom: screenHiegrh * .045,
+                    right: screenWidgth * .225,
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.primary,
+                      child: GestureDetector(
                         onTap: () async {
-                          try {
+                          final ImagePicker _picker = ImagePicker();
+                          final XFile? image = await _picker.pickImage(
+                              source: ImageSource.gallery);
+                          if (image != null) {
                             setState(() {
-                              isLoading = true;
-                            });
-                            var data = await getData();
-                            await UserService().updateAccount(widget.id, data);
-                            setState(() {
-                              isLoading = false;
-                            });
-                          } catch (e) {
-                            print(e);
-                            setState(() {
-                              isLoading = false;
+                              currentImage = image;
                             });
                           }
                         },
+                        child: const Icon(
+                          Icons.camera_alt,
+                          color: Colors.white,
+                        ),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                width: screenWidgth * .9,
+                child: Column(
+                  children: [
+                    AppInput(
+                      controller: _emailController,
+                      label: "Email",
+                      readOnly: true,
+                    ),
+                    SizedBox(
+                      height: screenHiegrh * .002,
+                    ),
+                    AppInput(
+                      controller: _nameController,
+                      label: "Name",
+                    ),
+                    SizedBox(
+                      height: screenHiegrh * .002,
+                    ),
+                    AppInput(
+                      controller: _subnameController,
+                      label: "Subname",
+                    ),
+                    SizedBox(
+                      height: screenHiegrh * .002,
+                    ),
+                    AppInput(
+                      controller: _telController,
+                      label: "Phone",
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    if (isLoading)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    if (error != null)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          error!,
+                          style: const TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    BlocBuilder<UserCubit, UserState>(
+                      builder: (contexte, state) {
+                        return AppButton(
+                          text: "Save change",
+                          onTap: () async {
+                            try {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              var data = await getData();
+                              await UserService()
+                                  .updateAccount(widget.id, data);
+                              setState(() {
+                                isLoading = false;
+                              });
+                              Navigator.of(context).pop();
+                              contexte
+                                  .read<UserCubit>()
+                                  .getAuthenticatedUser(widget.id);
+                            } catch (e) {
+                              print(e);
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              )
+            ],
           )
         ],
       ),

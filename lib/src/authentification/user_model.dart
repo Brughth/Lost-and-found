@@ -16,4 +16,14 @@ class UserModel {
     this.token,
     this.photoUrl,
   });
+
+  Map<String, dynamic> userToMap() {
+    return {
+      'name': name,
+      'subname': subname,
+      'email': email,
+      'tel': tel,
+      'photo_url': photoUrl,
+    };
+  }
 }
