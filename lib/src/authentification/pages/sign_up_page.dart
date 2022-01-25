@@ -94,16 +94,16 @@ class _SignUpPageState extends State<SignUpPage> {
                             isRepeatingAnimation: true,
                             animatedTexts: [
                               FadeAnimatedText(
-                                'Soyons Humble',
+                                "let's be humble",
                                 duration: const Duration(milliseconds: 5000),
                                 fadeOutBegin: 1,
                               ),
                               FadeAnimatedText(
-                                'Inscrire toi pour trouver \nun objet perdu.',
+                                'Sign up to find a lost item.',
                                 duration: const Duration(milliseconds: 10000),
                               ),
                               FadeAnimatedText(
-                                'Inscrire toi pour trouver\nle propriétaire d\'un\nobjet ramassé.',
+                                'Sign up to find the owner of \na picked up item',
                                 duration: const Duration(milliseconds: 10000),
                               ),
                             ],
@@ -128,11 +128,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         AppInput(
                           controller: _telController,
-                          label: "Telephone",
+                          label: "Phone",
                         ),
                         AppInput(
                           controller: _passwordController,
-                          label: "Mot De Passe",
+                          label: "Password",
                           maxLines: 1,
                           obscureText: true,
                         ),
@@ -150,14 +150,14 @@ class _SignUpPageState extends State<SignUpPage> {
                             textAlign: TextAlign.center,
                           ),
                         AppButton(
-                          text: "S'inscrire",
+                          text: "Register",
                           onTap: () async {
                             if (_nameController.text.isEmpty ||
                                 _passwordController.text.isEmpty ||
                                 _emailController.text.isEmpty ||
                                 _telController.text.isEmpty) {
                               Fluttertoast.showToast(
-                                msg: "tous les champs sont requis",
+                                msg: "all fields are required",
                                 backgroundColor: AppColors.primary,
                                 textColor: Colors.white,
                               );
@@ -225,23 +225,3 @@ class _SignUpPageState extends State<SignUpPage> {
         ));
   }
 }
-
-
-// Future<void> register() async {
-//     setState(() => isLoading = true);
-//     try {
-//       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-//         email: emailController.text,
-//         password: passwordController.text,
-//       );
-//     } on FirebaseAuthException catch (e) {
-//       if (e.code == 'weak-password') {
-//         passwordErrorMessage = 'The password provided is too weak.';
-//       } else if (e.code == 'email-already-in-use') {
-//         emailErrorMessage = 'The account already exists for that email.';
-//       }
-//     } catch (e) {
-//       print(e);
-//     }
-//     setState(() => isLoading = false);
-//   }

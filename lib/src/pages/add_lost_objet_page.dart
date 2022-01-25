@@ -60,6 +60,7 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
     double screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: AppColors.primary,
       ),
       body: BlocBuilder<UserCubit, UserState>(
@@ -74,33 +75,35 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
           return Form(
             autovalidateMode: AutovalidateMode.disabled,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: ListView(
                 children: [
                   Center(
-                    child: RichText(
-                      text: const TextSpan(
-                        text: "Lost",
-                        style: TextStyle(
-                            fontSize: 37,
-                            color: AppColors.primaryText,
-                            fontWeight: FontWeight.w700),
-                        children: [
-                          TextSpan(
-                            text: " Something ?",
-                            style: TextStyle(
-                              fontSize: 37,
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.w700,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: RichText(
+                        text: const TextSpan(
+                          text: "Lost",
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: AppColors.primaryText,
+                              fontWeight: FontWeight.w700),
+                          children: [
+                            TextSpan(
+                              text: " Something ?",
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: screenwidth * 0.02,
+                    height: screenwidth * 0.01,
                   ),
                   StreamBuilder(
                     stream: categoriesStream,
@@ -133,9 +136,6 @@ class _AddLostObjetPageState extends State<AddLostObjetPage> {
                       }
                       return Container();
                     },
-                  ),
-                  SizedBox(
-                    height: screenwidth * 0.01,
                   ),
                   AppInput(
                     controller: _titleController,

@@ -186,7 +186,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                 color: AppColors.primary,
                               ),
                               title: const Text(
-                                "Prenom",
+                                "Subname",
                                 style: TextStyle(
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.w500,

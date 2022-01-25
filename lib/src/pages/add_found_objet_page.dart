@@ -79,29 +79,32 @@ class _AddFoundObjetPageState extends State<AddFoundObjetPage> {
               child: ListView(
                 children: [
                   Center(
-                    child: RichText(
-                      text: const TextSpan(
-                        text: "Fount",
-                        style: TextStyle(
-                          fontSize: 37,
-                          color: AppColors.primaryText,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: " Something ?",
-                            style: TextStyle(
-                              fontSize: 37,
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.w700,
-                            ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: RichText(
+                        text: const TextSpan(
+                          text: "Fount",
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: AppColors.primaryText,
+                            fontWeight: FontWeight.w700,
                           ),
-                        ],
+                          children: [
+                            TextSpan(
+                              text: " Something ?",
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: screenwidth * 0.02,
+                    height: screenwidth * 0.01,
                   ),
                   StreamBuilder(
                     stream: categoriesStream,
@@ -133,9 +136,6 @@ class _AddFoundObjetPageState extends State<AddFoundObjetPage> {
                       }
                       return Container();
                     },
-                  ),
-                  SizedBox(
-                    height: screenwidth * 0.01,
                   ),
                   AppInput(
                     controller: _titleController,

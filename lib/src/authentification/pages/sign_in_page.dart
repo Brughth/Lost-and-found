@@ -88,16 +88,16 @@ class _SignInPageState extends State<SignInPage> {
                             animatedTexts: [
                               FadeAnimatedText(
                                 'Lost And Found',
-                                duration: const Duration(milliseconds: 5000),
+                                duration: const Duration(milliseconds: 7000),
                                 fadeOutBegin: 1,
                               ),
                               FadeAnimatedText(
-                                'Inscrire toi pour trouver \nun l\'objet perdu.',
-                                duration: const Duration(milliseconds: 10000),
+                                'Log in to find a lost item.',
+                                duration: const Duration(milliseconds: 7000),
                               ),
                               FadeAnimatedText(
-                                'Inscrire toi pour trouver\nle propriétaire d\'un\nl’objet ramassé.',
-                                duration: const Duration(milliseconds: 10000),
+                                'Log in to find the owner of \na picked up item.',
+                                duration: const Duration(milliseconds: 7000),
                               ),
                             ],
                           ),
@@ -142,7 +142,7 @@ class _SignInPageState extends State<SignInPage> {
                             if (_emailController.text.isEmpty ||
                                 _passwordController.text.isEmpty) {
                               Fluttertoast.showToast(
-                                  msg: "tous les chanps sont requies");
+                                  msg: "all fields are required");
                             } else {
                               try {
                                 setState(() {
