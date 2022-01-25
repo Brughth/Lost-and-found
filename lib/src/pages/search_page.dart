@@ -36,9 +36,9 @@ class _SearchPageState extends State<SearchPage>
         title: const Text(
           "Search",
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.primaryGrayText,
             fontWeight: FontWeight.w500,
-            fontSize: 23,
+            fontSize: 20,
           ),
         ),
       ),
@@ -117,18 +117,7 @@ class _SearchPageState extends State<SearchPage>
 
                       if (snapshot.hasData) {
                         if (snapshot.data!.size == 0) {
-                          return const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text(
-                                "No lost objet yet",
-                                style: TextStyle(
-                                  color: AppColors.primaryText,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          );
+                          return Container(); //? shimmer yet
                         } else {
                           List<QueryDocumentSnapshot<Object?>> cats =
                               snapshot.data!.docs;
@@ -141,6 +130,7 @@ class _SearchPageState extends State<SearchPage>
                                   selectedCategory = cat['id'];
                                   currentObject = cat['title'];
                                   setState(() {});
+
                                   print(cat['id']);
                                 },
                                 child: Padding(

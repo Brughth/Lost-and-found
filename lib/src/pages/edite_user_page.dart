@@ -84,6 +84,7 @@ class _EditeUserPageState extends State<EditeUserPage> {
     double screenWidgth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: AppColors.primary,
         leading: IconButton(
           icon: const Icon(
@@ -107,7 +108,7 @@ class _EditeUserPageState extends State<EditeUserPage> {
           Column(
             children: [
               SizedBox(
-                height: screenHiegrh * .025,
+                height: screenHiegrh * .005,
               ),
               Stack(
                 children: [
@@ -165,33 +166,24 @@ class _EditeUserPageState extends State<EditeUserPage> {
                       label: "Email",
                       readOnly: true,
                     ),
-                    SizedBox(
-                      height: screenHiegrh * .002,
-                    ),
                     AppInput(
                       controller: _nameController,
                       label: "Name",
-                    ),
-                    SizedBox(
-                      height: screenHiegrh * .002,
                     ),
                     AppInput(
                       controller: _subnameController,
                       label: "Subname",
                     ),
-                    SizedBox(
-                      height: screenHiegrh * .002,
-                    ),
                     AppInput(
                       controller: _telController,
                       label: "Phone",
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     if (isLoading)
-                      const Center(
-                        child: CircularProgressIndicator(),
+                      const Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
                     if (error != null)
                       Padding(

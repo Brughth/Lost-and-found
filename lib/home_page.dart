@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         centerTitle: true,
         actions: [
           IconButton(
-            splashColor: const Color(0xFFffb421),
+            splashColor: AppColors.secondary,
             onPressed: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const SearchPage()));
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
           ),
           IconButton(
-            splashColor: const Color(0xFFffb421),
+            splashColor: AppColors.secondary,
             onPressed: () {
               Navigator.push(
                 context,

@@ -110,7 +110,7 @@ class ObjetWidget extends StatelessWidget {
                                   style: const TextStyle(
                                     color: AppColors.primaryText,
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 15,
+                                    fontSize: 13,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -122,7 +122,7 @@ class ObjetWidget extends StatelessWidget {
                                       .format(DateTime.parse(createAd)),
                                   style: const TextStyle(
                                     color: AppColors.primaryText,
-                                    fontSize: 15,
+                                    fontSize: 13,
                                   ),
                                 ),
                               ),
@@ -152,14 +152,14 @@ class ObjetWidget extends StatelessWidget {
               trimCollapsedText: 'Show more',
               trimExpandedText: 'Show less',
               moreStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: AppColors.primary,
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+                color: AppColors.grayScale,
               ),
               lessStyle: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: AppColors.secondary,
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+                color: AppColors.grayScale,
               ),
             ),
           ),
@@ -189,9 +189,9 @@ class ObjetWidget extends StatelessWidget {
                   ),
                   onPressed: () async {
                     if (isLost) {
-                      await Share.share(" $description \n\n$image");
+                      await Share.share("$title\n\n $description \n\n$image");
                     } else {
-                      await Share.share("$description \n\n$image");
+                      await Share.share("$title\n\n  $description \n\n$image");
                     }
                   },
                 ),

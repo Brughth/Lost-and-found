@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
       title: 'LOST AND FOUND',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: 'Raleway',
         primarySwatch: Colors.blue,
         backgroundColor: Colors.white,
       ),
