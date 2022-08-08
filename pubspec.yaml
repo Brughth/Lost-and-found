@@ -37,7 +37,6 @@ dependencies:
   flutter_custom_clippers: ^2.0.0
   simple_animations: ^4.2.0
   firebase_auth: ^3.6.2
-  firebase_core: ^1.20.0
   cloud_firestore: ^3.4.3
   image_picker: ^0.8.5+3
   firebase_storage: ^10.3.4
@@ -48,6 +47,7 @@ dependencies:
   firebase_messaging: ^12.0.1
   flutter_bloc: ^8.0.1
   equatable: ^2.0.3
+  firebase_core: ^1.20.0
 
 dev_dependencies:
   flutter_test:
