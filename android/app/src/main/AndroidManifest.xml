@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.lost_and_found">
+    package="com.sona.lost_and_found">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="Lost and Found"
         android:icon="@mipmap/launcher_icon">
+        
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

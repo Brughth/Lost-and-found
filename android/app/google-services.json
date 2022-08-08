@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:70671827832:android:67ccb2561cd75b927e7e8d",
         "android_client_info": {
-          "package_name": "com.example.lost_and_found"
+          "package_name": "com.sona.lost_and_found"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "70671827832-9k0cp32v7c4icfknr45ose5ovdk0kgp4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.lost_and_found",
+            "package_name": "com.sona.lost_and_found",
             "certificate_hash": "b468c063ee9735ae3a8147177e0fd383dbd94642"
           }
         },
