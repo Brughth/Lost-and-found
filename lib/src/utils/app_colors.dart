@@ -5,6 +5,7 @@ class AppColors {
   static const Color secondary = Color.fromRGBO(9, 132, 227, 1);
   static const Color primaryText = Color(0xFF404040);
   static const Color grayScale = Color(0xFF9099A6);
+  static const Color withgrayScale = Color.fromARGB(255, 238, 232, 232);
   static const Color primaryGrayText = Color.fromRGBO(51, 51, 51, 1);
 
   static MaterialColor createMaterialColor(Color color) {

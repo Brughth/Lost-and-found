@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         title: const Text(
           "Lost And Found",
           style: TextStyle(
-            color: AppColors.primaryGrayText,
+            color: AppColors.withgrayScale,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
