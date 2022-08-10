@@ -1,0 +1,43 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+
+    # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
+    gradle(
+      task: 'assemble',
+      build_type: 'Release'
+    )
+  end
+
+  desc "Build dev apk and distribute to firebase"
+  lane :dev do
+    Dir.chdir "../.." do sh("flutter", "build", "apk","-t","./lib/main.dart","--release","-v","--no-tree-shake-icons") end # Call Flutter Build
+      firebase_app_distribution(
+        app: "1:70671827832:android:67ccb2561cd75b927e7e8d",
+        testers: "brughthsona@gmail.com,sonaolice@gmail.com",
+        release_notes: lane_context[SharedValues::FL_CHANGELOG],
+        firebase_cli_token: '1//034RHYOhyIKQ-CgYIARAAGAMSNgF-L9IrbmJfEXlXG7FXbtGXTUHbgE2nyMCTGImBBFgehquJ3ioxp24NNUCqqpHzgrT5ibujfw',
+        android_artifact_type: "APK",
+        android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk"
+    )
+  end
+
+end
