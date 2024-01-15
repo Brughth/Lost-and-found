@@ -8,7 +8,7 @@
 PRODUCT_NAME = biz_invoice
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = dev.olicesona.bizInvoice
+PRODUCT_BUNDLE_IDENTIFIER = com.olicesona.bizInvoice
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2024 dev.olicesona. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 com.olicesona. All rights reserved.
