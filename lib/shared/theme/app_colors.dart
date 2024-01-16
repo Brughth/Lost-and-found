@@ -34,6 +34,8 @@ const ColorScheme kDarkColorScheme = ColorScheme(
 /// basic colors
 const kSecondary = Color(0xFF64c66f);
 const kPrimary = Color(0xFF1a8c28);
+const kDarkSecondary = Color(0xff7cacf8);
+const kYellow = Color(0xfff5820b);
 
 const kTeal400 = Color(0xFF26A69A);
 const kGrey900 = Color(0xFF263238);
@@ -49,7 +51,7 @@ const kRedColorHeart = Color(0xFFf22742);
 const kLightPrimary = Color(0xfffcfcff);
 const kLightAccent = Color(0xFF1E1E1E);
 const kDarkAccent = Color(0xffd3e3fd);
-const Color black = Color(0xFF1E1E1E);
+const Color kBlack = Color(0xFF1E1E1E);
 
 const kLightBG = Color(0xffF1F2F3); // 0xffd3e3fd
 const kLightText = Color(0xffd3e3fd); //
